@@ -23,10 +23,14 @@
  *
  */
 
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef FILE_IO_H
+#define FILE_IO_H
 
 #include <iostream>
+#include <fstream>
+#include <vector>
+#include <cstring>
+
 class file
 {
 private:
@@ -51,7 +55,7 @@ public:
     }
 };
 
-#endif /* MAIN_H */
+#endif /* FILE_IO_H */
 
 /*
 req1: we will use C++
