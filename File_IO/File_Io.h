@@ -30,6 +30,7 @@
 #include <fstream>
 #include <vector>
 #include <cstring>
+#include <list>
 
 class file
 {
