@@ -29,32 +29,84 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <cstring>
+#include <string>
 #include <list>
 
 class file
 {
-private:
+public:
+    file(const std::string &fileName, const std::string &mode = "r") { open(fileName, mode); }
+    ~file() { close(); }
+
+    // delete copy constructor and copy assignment operator to prevent copying
     file(const file &) = delete;
     file operator=(const file &) = delete;
 
-public:
-    file() {}
-
-#if debug
-    std::string write_one_line(&file){};
-
-    std::vector write_more_lines(&file){};
-
-    std::string read_one_line(&file){};
-
-    std::vector read_more_lines(&file){};
-#endif
-
-    ~file()
+    // read a line of string from the file
+    std::string readLine()
     {
+        std::string line;
+        std::getline(fileStream, line);
+        return line;
+    }
+
+    // read a container of strings from the file
+    std::vector<std::string> readLines()
+    {
+        std::vector<std::string> lines;
+        std::string line;
+        while (std::getline(fileStream, line))
+        {
+            lines.push_back(line);
+        }
+        return lines;
+    }
+
+    // write a string to the file, which contains exactly 1 line
+    void writeLine(const std::string &line)
+    {
+        fileStream << line << std::endl;
+    }
+
+    // write a container of strings to the file
+    void writeLines(const std::vector<std::string> &lines)
+    {
+        for (const auto &line : lines)
+        {
+            fileStream << line << std::endl;
+        }
+    }
+
+private:
+    std::fstream fileStream;
+
+    void open(const std::string &fileName, const std::string &mode)
+    {
+        fileStream.open(fileName, std::ios::out | std::ios::in);
+        if (!fileStream.is_open())
+        {
+            throw std::runtime_error("Failed to open file: " + fileName);
+        }
+    }
+
+    void close()
+    {
+        if (fileStream.is_open())
+        {
+            fileStream.close();
+        }
     }
 };
+
+#if debug
+std::string write_one_line(&file){};
+
+std::vector write_more_lines(&file){};
+
+std::string read_one_line(&file){};
+
+std::vector read_more_lines(&file){};
+#endif
 
 #endif /* FILE_IO_H */
 

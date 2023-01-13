@@ -3,7 +3,15 @@
 int main(void)
 {
 
-    std::cout << "Lets Rock" << std::endl;
+    std::string readLine();
+    {
+        std::cout << "Reading Lines" << std::endl;
+    }
 
-    return 0;
+    std::vector<std::string> readLines();
+    {
+        std::cout << "Reading Lines" << std::endl;
+    }
+
+        return 0;
 }
