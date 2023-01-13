@@ -55,7 +55,7 @@ public:
         }
         else
         {
-            contents.push_back("Unable to open file");
+            std::cerr << "Error: Unable to open file" << std::endl;
             return contents;
         }
     }
@@ -74,7 +74,8 @@ public:
         }
         else
         {
-            return "Unable to open file";
+            std::cerr << "Error: Unable to open file" << std::endl;
+            return "Error: Unable to open file";
         }
     }
 };
