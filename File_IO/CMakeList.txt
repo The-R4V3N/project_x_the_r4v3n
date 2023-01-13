@@ -2,6 +2,6 @@ cmake_minimum_required(VERSION 3.10)
 
 project(project_x, CXX)
 
-set (source main.cpp)
+set (source File_Io.cpp)
 
 add_executable (project_x_cmake ${sources})

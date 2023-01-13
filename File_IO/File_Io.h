@@ -27,98 +27,56 @@
 #define FILE_IO_H
 
 #include <iostream>
-#include <fstream>
-#include <vector>
 #include <string>
+#include <fstream>
 #include <list>
 
-class file
+class Fileio
 {
-public:
-    file(const std::string &fileName, const std::string &mode = "r") { open(fileName, mode); }
-    ~file() { close(); }
-
-    // delete copy constructor and copy assignment operator to prevent copying
-    file(const file &) = delete;
-    file operator=(const file &) = delete;
-
-    // read a line of string from the file
-    std::string readLine()
-    {
-        std::string line;
-        std::getline(fileStream, line);
-        return line;
-    }
-
-    // read a container of strings from the file
-    std::vector<std::string> readLines()
-    {
-        std::vector<std::string> lines;
-        std::string line;
-        while (std::getline(fileStream, line))
-        {
-            lines.push_back(line);
-        }
-        return lines;
-    }
-
-    // write a string to the file, which contains exactly 1 line
-    void writeLine(const std::string &line)
-    {
-        fileStream << line << std::endl;
-    }
-
-    // write a container of strings to the file
-    void writeLines(const std::vector<std::string> &lines)
-    {
-        for (const auto &line : lines)
-        {
-            fileStream << line << std::endl;
-        }
-    }
-
 private:
-    std::fstream fileStream;
+    std::string filename;
+    std::list<std::string> contents;
 
-    void open(const std::string &fileName, const std::string &mode)
+public:
+    Fileio(std::string filename) : filename(filename) {}
+
+    std::list<std::string> file_one_read()
     {
-        fileStream.open(fileName, std::ios::out | std::ios::in);
-        if (!fileStream.is_open())
+        std::ifstream file(filename);
+        if (file.is_open())
         {
-            throw std::runtime_error("Failed to open file: " + fileName);
+            std::string line;
+            while (getline(file, line))
+            {
+                contents.push_back(line);
+            }
+            file.close();
+            return contents;
+        }
+        else
+        {
+            contents.push_back("Unable to open file");
+            return contents;
         }
     }
 
-    void close()
+    std::string file_one_write(std::list<std::string> data)
     {
-        if (fileStream.is_open())
+        std::ofstream file(filename);
+        if (file.is_open())
         {
-            fileStream.close();
+            for (std::string line : data)
+            {
+                file << line << std::endl;
+            }
+            file.close();
+            return "File written successfully";
+        }
+        else
+        {
+            return "Unable to open file";
         }
     }
 };
 
-#if debug
-std::string write_one_line(&file){};
-
-std::vector write_more_lines(&file){};
-
-std::string read_one_line(&file){};
-
-std::vector read_more_lines(&file){};
-#endif
-
 #endif /* FILE_IO_H */
-
-/*
-req1: we will use C++
-req2: we are working with std::string type.
-BigTask: write a C++ class to work with files.
-- create header and source file for C++ class
-- create an empty class.
-- create a source file for main function and some tests.
-- include neccessary header files
-- define main function and create an object of a class for file File_IO
-- ?build it and see at least some output
-
-*/
