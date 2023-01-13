@@ -8,11 +8,12 @@ int main(void)
     std::list<std::string> contents = myfile.file_one_read();
 
     for (auto s : contents)
-        std::cout << s << std::endl;
+        std::cout << "reading from file" << s << std::endl;
 
     std::string status = myfile.file_one_write(contents);
 
-    std::cout << status << std::endl;
+    std::cout << "writing to file....\n"
+              << status << std::endl;
 
     return 0;
 }
