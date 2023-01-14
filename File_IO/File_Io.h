@@ -27,57 +27,77 @@
 #define FILE_IO_H
 
 #include <iostream>
-#include <string>
 #include <fstream>
-#include <list>
+#include <vector>
 
-class Fileio
+class FileIo
 {
-private:
-    std::string filename;
-    std::list<std::string> contents;
-
 public:
-    Fileio(std::string filename) : filename(filename) {}
-
-    std::list<std::string> file_one_read()
+    FileIo() {}
+    // function to read once.
+    std::string readLine(std::fstream &file, std::string fileName)
     {
-        std::ifstream file(filename);
+        file.open(fileName);
+        std::string data;
         if (file.is_open())
         {
-            std::string line;
-            while (getline(file, line))
-            {
-                contents.push_back(line);
-            }
+            getline(file, data);
             file.close();
-            return contents;
         }
         else
         {
-            std::cerr << "Error: Unable to open file" << std::endl;
-            return contents;
+            data = "File not found!";
         }
+        return data;
     }
-
-    std::string file_one_write(std::list<std::string> data)
+    // function to read multiple lines.
+    std::vector<std::string> readLines(std::fstream &file, std::string fileName)
     {
-        std::ofstream file(filename);
+        std::vector<std::string> items;
+        file.open(fileName);
+        std::string data;
         if (file.is_open())
         {
-            for (std::string line : data)
+            while (getline(file, data))
             {
-                file << line << std::endl;
+                items.push_back(data);
             }
             file.close();
-            return "File written successfully";
         }
         else
         {
-            std::cerr << "Error: Unable to open file" << std::endl;
-            return "Error: Unable to open file";
+            data = "File not found!";
+        }
+        return items;
+    }
+    // function to write once.
+    void writeLine(std::string fileName)
+    {
+        std::fstream writeFile;
+        writeFile.open(fileName);
+        if (writeFile.is_open())
+        {
+            writeFile << "0x1C2B\n";
+            writeFile.close();
         }
     }
+    // function to write multiple lines.
+    void writeLines(std::string fileName, std::vector<std::string> dataToFile)
+    {
+        std::fstream writeFile;
+        writeFile.open(fileName);
+        if (writeFile.is_open())
+        {
+            for (auto data : dataToFile)
+            {
+                writeFile << data << "\n";
+            }
+
+            writeFile.close();
+        }
+    }
+
+    ~FileIo() {}
 };
 
 #endif /* FILE_IO_H */
