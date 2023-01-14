@@ -1,3 +1,13 @@
+'''
+ * @file Calculator_gui.py
+ * @author Oliver Joisten (https://oliver-joisten.se/)
+ * @brief A simple Calculator with a very basic gui made with tkinter and python's standard library.
+ * @version 0.1
+ * @date 2023-01-12
+ *
+ * @copyright Copyright (c) 2023
+ *
+'''
 from tkinter import *
 
 root = Tk()

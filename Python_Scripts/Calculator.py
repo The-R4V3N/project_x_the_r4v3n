@@ -1,7 +1,8 @@
 '''
  * @file Calculator.py
  * @author Oliver Joisten (https://oliver-joisten.se/)
- * @brief A simple calculator function to handle all basic calculation operations.
+ * @brief A very simple Calculator made in  python's standard library.
+              All operation are done in the terminal.
  * @version 0.1
  * @date 2023-01-12
  *
