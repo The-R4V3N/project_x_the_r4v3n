@@ -66,41 +66,41 @@ divide = customtkinter.CTkButton(btns_frame, text="/", width=77, height=40, bord
                                  cursor="hand2", command=lambda: btn_click("/")).grid(row=0, column=3, padx=1, pady=2)
 
 # Second Row
-seven = customtkinter.CTkButton(btns_frame, text="7", width=77, height=40,  border_width=1, corner_radius=5,
+seven = customtkinter.CTkButton(btns_frame, text="7", width=77, height=40, fg_color="black", hover_color="gray",  border_width=1, corner_radius=5,
                                 cursor="hand2", command=lambda: btn_click(7)).grid(row=1, column=0, padx=1, pady=2)
-eight = customtkinter.CTkButton(btns_frame, text="8", width=77, height=40, border_width=1, corner_radius=5,
+eight = customtkinter.CTkButton(btns_frame, text="8", width=77, height=40, fg_color="black", hover_color="gray", border_width=1, corner_radius=5,
                                 cursor="hand2", command=lambda: btn_click(8)).grid(row=1, column=1, padx=1, pady=2)
-nine = customtkinter.CTkButton(btns_frame, text="9", width=77, height=40, border_width=1, corner_radius=5,
+nine = customtkinter.CTkButton(btns_frame, text="9", width=77, height=40, fg_color="black", hover_color="gray", border_width=1, corner_radius=5,
                                cursor="hand2", command=lambda: btn_click(9)).grid(row=1, column=2, padx=1, pady=2)
 multiply = customtkinter.CTkButton(btns_frame, text="*", width=77, height=40, border_width=1, corner_radius=5,
                                    cursor="hand2", command=lambda: btn_click("*")).grid(row=1, column=3, padx=1, pady=2)
 
 # Third Row
-four = customtkinter.CTkButton(btns_frame, text="4", width=77, height=40, border_width=1, corner_radius=5,
+four = customtkinter.CTkButton(btns_frame, text="4", width=77, height=40, fg_color="black", hover_color="gray", border_width=1, corner_radius=5,
                                cursor="hand2", command=lambda: btn_click(4)).grid(row=2, column=0, padx=1, pady=2)
-five = customtkinter.CTkButton(btns_frame, text="5", width=77, height=40, border_width=1, corner_radius=5,
+five = customtkinter.CTkButton(btns_frame, text="5", width=77, height=40, fg_color="black", hover_color="gray", border_width=1, corner_radius=5,
                                cursor="hand2", command=lambda: btn_click(5)).grid(row=2, column=1, padx=1, pady=2)
-six = customtkinter.CTkButton(btns_frame, text="6", width=77, height=40, border_width=1, corner_radius=5,
+six = customtkinter.CTkButton(btns_frame, text="6", width=77, height=40, fg_color="black", hover_color="gray", border_width=1, corner_radius=5,
                               cursor="hand2", command=lambda: btn_click(6)).grid(row=2, column=2, padx=1, pady=2)
 minus = customtkinter.CTkButton(btns_frame, text="-", width=77, height=40, border_width=1, corner_radius=5,
                                 cursor="hand2", command=lambda: btn_click("-")).grid(row=2, column=3, padx=1, pady=2)
 
 # Fourth Row
-one = customtkinter.CTkButton(btns_frame, text="1", width=77, height=40, border_width=1, corner_radius=5,
+one = customtkinter.CTkButton(btns_frame, text="1", width=77, height=40, fg_color="black", hover_color="gray", border_width=1, corner_radius=5,
                               cursor="hand2", command=lambda: btn_click(1)).grid(row=3, column=0, padx=1, pady=2)
-two = customtkinter.CTkButton(btns_frame, text="2", width=77, height=40, border_width=1, corner_radius=5,
+two = customtkinter.CTkButton(btns_frame, text="2", width=77, height=40, fg_color="black", hover_color="gray", border_width=1, corner_radius=5,
                               cursor="hand2", command=lambda: btn_click(2)).grid(row=3, column=1, padx=1, pady=2)
-three = customtkinter.CTkButton(btns_frame, text="3", width=77, height=40, border_width=1, corner_radius=5,
+three = customtkinter.CTkButton(btns_frame, text="3", width=77, height=40, fg_color="black", hover_color="gray", border_width=1, corner_radius=5,
                                 cursor="hand2", command=lambda: btn_click(3)).grid(row=3, column=2, padx=1, pady=2)
 plus = customtkinter.CTkButton(btns_frame, text="+", width=77, height=40, border_width=1, corner_radius=5,
                                cursor="hand2", command=lambda: btn_click("+")).grid(row=3, column=3, padx=1, pady=2)
 
 # Fifth Row
-zero = customtkinter.CTkButton(btns_frame, text="0", width=158, height=40, border_width=1, corner_radius=5, cursor="hand2",
+zero = customtkinter.CTkButton(btns_frame, text="0", width=158, height=40, fg_color="black", hover_color="gray", border_width=1, corner_radius=5, cursor="hand2",
                                command=lambda: btn_click(0)).grid(row=4, column=0, columnspan=2, padx=1, pady=2)
 point = customtkinter.CTkButton(btns_frame, text=".", width=77, height=40, border_width=1, corner_radius=5,
                                 cursor="hand2", command=lambda: btn_click(".")).grid(row=4, column=2, padx=1, pady=2)
-equals = customtkinter.CTkButton(btns_frame, text="=", width=77, height=40, border_width=1, corner_radius=5,
+equals = customtkinter.CTkButton(btns_frame, text="=", width=77, height=40, fg_color="black", hover_color="gray", border_width=1, corner_radius=5,
                                  cursor="hand2", command=lambda: btn_equal()).grid(row=4, column=3, padx=1, pady=2)
 
 root.mainloop()
