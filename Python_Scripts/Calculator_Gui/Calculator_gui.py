@@ -10,6 +10,7 @@
 '''
 from tkinter import *
 import customtkinter
+import tkinter.messagebox
 
 # Modes: system (default), light, dark
 customtkinter.set_appearance_mode("System")
@@ -19,6 +20,7 @@ customtkinter.set_default_color_theme("green")
 root = customtkinter.CTk()
 root.geometry("340x300")
 root.resizable(0, 0)
+calc = Frame(root)
 root.title("Calculator")
 
 # Define functions and widget events:
@@ -102,5 +104,46 @@ point = customtkinter.CTkButton(btns_frame, text=".", width=77, height=40, borde
                                 cursor="hand2", command=lambda: btn_click(".")).grid(row=4, column=2, padx=1, pady=2)
 equals = customtkinter.CTkButton(btns_frame, text="=", width=77, height=40, fg_color="black", hover_color="gray", border_width=1, corner_radius=5,
                                  cursor="hand2", command=lambda: btn_equal()).grid(row=4, column=3, padx=1, pady=2)
+
+# # Adding Menu and Settings
+
+
+def iExit():
+    iExit = tkinter.messagebox.askyesno("Calculator",
+                                        "Do you want to exit ?")
+    if iExit > 0:
+        root.destroy()
+        return
+
+
+def Dark():
+    customtkinter.set_appearance_mode("Dark")
+
+
+def Light():
+    customtkinter.set_appearance_mode("Light")
+
+
+menubar = Menu(calc)
+
+# ManuBar 1 :
+filemenu = Menu(menubar, tearoff=0)
+menubar.add_cascade(label='Settings', menu=filemenu)
+filemenu.add_command(label="BG-Color Light", command=Light)
+filemenu.add_command(label="BG-Color Dark", command=Dark)
+
+filemenu.add_separator()
+filemenu.add_command(label="Exit", command=iExit)
+
+# ManuBar 2 :
+editmenu = Menu(menubar, tearoff=0)
+menubar.add_cascade(label='Edit', menu=editmenu)
+editmenu.add_command(label="Cut")
+editmenu.add_command(label="Copy")
+editmenu.add_separator()
+editmenu.add_command(label="Paste")
+
+root.config(menu=menubar)
+
 
 root.mainloop()
