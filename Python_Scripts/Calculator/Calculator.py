@@ -69,7 +69,8 @@ while True:
         # check if user wants another calculation
         # break the while loop if answer is no
         while True:
-            next_calculation = input("Let's do next calculation? (yes/no): ")
+            next_calculation = input(
+                "Let's do next calculation? (yes/no): ").tolower()
             if next_calculation == "no":
                 break
             elif next_calculation == "yes":
