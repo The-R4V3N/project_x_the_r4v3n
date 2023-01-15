@@ -45,6 +45,56 @@ def btn_equal():
     expression = ""
 
 
+def iExit():
+    iExit = tkinter.messagebox.askyesno("Calculator",
+                                        "Do you want to exit ?")
+    if iExit > 0:
+        root.destroy()
+        return
+
+
+def Dark():
+    customtkinter.set_appearance_mode("Dark")
+
+
+def Light():
+    customtkinter.set_appearance_mode("Light")
+
+
+# def cut_text():
+#     try:
+#         # Get the selected text from the input field
+#         selected_text = input_field.get(SEL_FIRST, SEL_LAST)
+#         # Clear the selected text from the input field
+#         input_field.delete(SEL_FIRST, SEL_LAST)
+#         # Place the selected text in the clipboard
+#         root.clipboard_clear()
+#         root.clipboard_append(selected_text)
+#     except:
+#         pass
+
+
+# def copy_text():
+#     try:
+#         # Get the selected text from the input field
+#         selected_text = input_field.get(SEL_FIRST, SEL_LAST)
+#         # Place the selected text in the clipboard
+#         root.clipboard_clear()
+#         root.clipboard_append(selected_text)
+#     except:
+#         pass
+
+
+# def paste_text():
+#     try:
+#         # Get the text from the clipboard
+#         clipboard_text = root.clipboard_get()
+#         # Insert the text from the clipboard into the input field
+#         input_field.insert(INSERT, clipboard_text)
+#     except:
+#         pass
+
+
 # Create labels, text boxes, and button:
 expression = ""
 input_text = StringVar()
@@ -57,6 +107,7 @@ input_field = customtkinter.CTkEntry(input_frame, font=('arial', 18, 'bold'),
                                      textvariable=input_text, width=327, height=40, justify=RIGHT)
 input_field.grid(row=0, column=0)
 input_field.pack(padx=2, pady=10)
+
 
 btns_frame = customtkinter.CTkFrame(root, width=350, height=272.5)
 btns_frame.pack()
@@ -105,28 +156,11 @@ point = customtkinter.CTkButton(btns_frame, text=".", width=77, height=40, borde
 equals = customtkinter.CTkButton(btns_frame, text="=", width=77, height=40, fg_color="black", hover_color="gray", border_width=1, corner_radius=5,
                                  cursor="hand2", command=lambda: btn_equal()).grid(row=4, column=3, padx=1, pady=2)
 
-# # Adding Menu and Settings
-
-
-def iExit():
-    iExit = tkinter.messagebox.askyesno("Calculator",
-                                        "Do you want to exit ?")
-    if iExit > 0:
-        root.destroy()
-        return
-
-
-def Dark():
-    customtkinter.set_appearance_mode("Dark")
-
-
-def Light():
-    customtkinter.set_appearance_mode("Light")
-
+# Adding Menu and Settings
 
 menubar = Menu(calc)
 
-# ManuBar 1 :
+# MenuBar 1 :
 filemenu = Menu(menubar, tearoff=0)
 menubar.add_cascade(label='Settings', menu=filemenu)
 filemenu.add_command(label="BG-Color Light", command=Light)
@@ -135,13 +169,15 @@ filemenu.add_command(label="BG-Color Dark", command=Dark)
 filemenu.add_separator()
 filemenu.add_command(label="Exit", command=iExit)
 
-# ManuBar 2 :
+# # MenuBar 2 :
 # editmenu = Menu(menubar, tearoff=0)
 # menubar.add_cascade(label='Edit', menu=editmenu)
-# editmenu.add_command(label="Cut")
-# editmenu.add_command(label="Copy")
+# editmenu.add_command(label="Cut", command=cut_text)
+# editmenu.add_command(label="Copy", command=copy_text)
+
 # editmenu.add_separator()
-# editmenu.add_command(label="Paste")
+# editmenu.add_command(label="Paste", command=paste_text)
+
 
 root.config(menu=menubar)
 
