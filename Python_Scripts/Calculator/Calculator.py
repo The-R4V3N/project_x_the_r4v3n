@@ -1,3 +1,4 @@
+
 '''
  * @file Calculator.py
  * @author Oliver Joisten (https://oliver-joisten.se/)
