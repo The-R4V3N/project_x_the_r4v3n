@@ -46,6 +46,7 @@ public:
         }
         else
         {
+            std::cerr << "Error: Unable to open file " << fileName << " for reading." << std::endl;
             data = "File not found!";
         }
         return data;
@@ -66,6 +67,7 @@ public:
         }
         else
         {
+            std::cerr << "Error: Unable to open file " << fileName << " for reading." << std::endl;
             data = "File not found!";
         }
         return items;
@@ -77,7 +79,7 @@ public:
         writeFile.open(fileName);
         if (writeFile.is_open())
         {
-            writeFile << "0x1C2B\n";
+            writeFile << "Hello\n";
             writeFile.close();
         }
     }
