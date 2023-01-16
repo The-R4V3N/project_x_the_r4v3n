@@ -73,13 +73,13 @@ public:
         return items;
     }
     // function to write once.
-    void writeLine(std::string fileName)
+    void writeLine(std::string fileName, std::string line)
     {
         std::fstream writeFile;
         writeFile.open(fileName);
         if (writeFile.is_open())
         {
-            writeFile << "Hello\n";
+            writeFile << line;
             writeFile.close();
         }
     }

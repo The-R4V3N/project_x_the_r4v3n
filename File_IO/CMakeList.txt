@@ -1,8 +1,18 @@
 
 cmake_minimum_required(VERSION 3.10)
 
-project(File_io, CXX)
+set(fileName File_Io)
 
-set (source File_Io.cpp)
+project(${fileName})
 
-add_executable (File_Io_cmake ${source})
+set(Headers 
+    File_Io.h
+)
+
+set(Sources 
+    File_Io.cpp
+)
+
+add_library(${fileName} STATIC ${Sources} ${Headers})
+add_executable(file_Io File_Io.cpp)
+target_link_libraries(File_Io PRIVATE ${fileName})

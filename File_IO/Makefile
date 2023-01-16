@@ -1,24 +1,26 @@
+CXX = g++
+CXXFLAGS = -std=c++17 -Wall -Wextra -Werror
 
-# a target to build an executable file from source files with c++17 standart
-# the target project_x has a dependicy : main.o
-# it means, firstly : execute the target "main.o"
+SOURCES = File_Io.cpp
+HEADERS = File_Io.h
+OBJECTS = $(addprefix built/, $(SOURCES:.cpp=.o))
 
-# Compiling stage (source files to object files)
-File_Io.o: File_Io.cpp
-	g++ -std=c++17 -c -o build/File_Io.o File_Io.cpp
+TARGET = built/file_io
+LIBRARY = built/libFile_Io.a
 
-#Linking stage (object files to executable)
-File_Io: build/File_Io.o
-	g++ -std=c++17 -o build/File_io build/File_Io.o
+$(TARGET): $(OBJECTS) $(LIBRARY)
+	$(CXX) $(CXXFLAGS) $(OBJECTS) $(LIBRARY) -o $(TARGET)
 
+$(LIBRARY): $(HEADERS) $(OBJECTS)
+	ar rcs $(LIBRARY) $(OBJECTS)
 
-#cleaning upp    
+built/%.o: %.cpp $(HEADERS)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+.PHONY: clean
+
 clean:
-	rm --force build/File_io build/File_Io.o
+	rm -f $(OBJECTS) $(TARGET) $(LIBRARY)
 
+$(shell mkdir -p built)
 
-#we define our default target
-default: build/File_IO build/File_Io
-
-
-.PHONY: File_io
