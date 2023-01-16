@@ -1,5 +1,4 @@
-0x1224
-0x1DBC
-0xFFCB
-0x32A1
-A1
+Hello
+I am a
+Software
+0Developer
