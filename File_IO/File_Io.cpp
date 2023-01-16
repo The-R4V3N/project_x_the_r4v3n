@@ -10,7 +10,7 @@ int main(void)
     // Write once.
     FileIO.writeLine(FILE);
     // Write multiple lines.
-    std::vector<std::string> messages = {"0x1224", "0x1DBC", "0xFFCB", "0x32A1"};
+    std::vector<std::string> messages = {"Hello", "I am a", "Software", "Developer"};
     FileIO.writeLines(FILE, messages);
     // Read once.
     std::cout << "Read once: " << std::endl;
