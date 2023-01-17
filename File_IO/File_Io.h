@@ -30,76 +30,63 @@
 #include <fstream>
 #include <vector>
 
-class FileIo
+class FileOps
 {
+    std::fstream file;
+
 public:
-    FileIo() {}
-    // function to read once.
-    std::string readLine(std::fstream &file, std::string fileName)
+    FileOps() {}
+
+    template <typename T>
+    T read(std::string fileName, size_t nLines)
     {
+        T items;
         file.open(fileName);
         std::string data;
         if (file.is_open())
         {
-            getline(file, data);
-            file.close();
-        }
-        else
-        {
-            std::cerr << "Error: Unable to open file " << fileName << " for reading." << std::endl;
-            data = "File not found!";
-        }
-        return data;
-    }
-    // function to read multiple lines.
-    std::vector<std::string> readLines(std::fstream &file, std::string fileName)
-    {
-        std::vector<std::string> items;
-        file.open(fileName);
-        std::string data;
-        if (file.is_open())
-        {
-            while (getline(file, data))
+            for (size_t i = 0; i < nLines; i++)
             {
+                if (!getline(file, data))
+                    break;
                 items.push_back(data);
             }
             file.close();
         }
         else
         {
-            std::cerr << "Error: Unable to open file " << fileName << " for reading." << std::endl;
-            data = "File not found!";
+            throw std::runtime_error("Error: Unable to open file " + fileName + " for reading.");
         }
         return items;
     }
-    // function to write once.
-    void writeLine(std::string fileName, std::string line)
+
+    void write(std::string fileName, std::string data, size_t nLines)
     {
-        std::fstream writeFile;
-        writeFile.open(fileName);
-        if (writeFile.is_open())
+        file.open(fileName);
+        if (file.is_open())
         {
-            writeFile << line;
-            writeFile.close();
-        }
-    }
-    // function to write multiple lines.
-    void writeLines(std::string fileName, std::vector<std::string> dataToFile)
-    {
-        std::fstream writeFile;
-        writeFile.open(fileName);
-        if (writeFile.is_open())
-        {
-            for (auto data : dataToFile)
+            for (size_t i = 0; i < nLines; i++)
             {
-                writeFile << data << "\n";
+                file << data;
+                if (i < nLines - 1)
+                    file << '\n';
             }
 
-            writeFile.close();
+            file.close();
+        }
+        else
+        {
+            throw std::runtime_error("Error: Unable to open file " + fileName + " for writing.");
         }
     }
 
-    ~FileIo() {}
+    bool fileExists(const std::string &name)
+    {
+        std::ifstream f(name.c_str());
+        return f.good();
+    }
+
+    ~FileOps() {}
 };
 
 #endif /* FILE_IO_H */
