@@ -6,8 +6,8 @@ SOURCES = File_Io.cpp
 HEADERS = File_Io.h
 OBJECTS = $(addprefix built/, $(SOURCES:.cpp=.o))
 
-TARGET = built/file_io
-LIBRARY = built/libFile_Io.a
+TARGET = build/file_io
+LIBRARY = build/libFile_Io.a
 
 $(TARGET): $(OBJECTS) $(LIBRARY)
 	$(CXX) $(CXXFLAGS) $(OBJECTS) $(LIBRARY) -o $(TARGET)

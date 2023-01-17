@@ -32,37 +32,59 @@
 
 class FileOps
 {
-    std::fstream file;
-
 public:
     FileOps() {}
 
-    template <typename T>
-    T read(std::string fileName, size_t nLines)
+    // template <typename T>
+    // T read(std::string fileName, size_t line)
+    // {
+    //     std::vector<std::string> items;
+    //     std::ifstream file(fileName);
+    //     std::string data;
+    //     if (line == 0)
+    //     {
+    //         while (std::getline(file, data))
+    //             items.push_back(data);
+    //     }
+    //     else
+    //     {
+    //         int i = 1;
+    //         while (std::getline(file, data))
+    //         {
+    //             if (i == line)
+    //                 items.push_back(data);
+    //             i++;
+    //         }
+    //     }
+    //     return items;
+    // }
+
+    std::vector<std::string> read(std::string fileName, size_t line)
     {
-        T items;
-        file.open(fileName);
+        std::vector<std::string> items;
+        std::ifstream file(fileName);
         std::string data;
-        if (file.is_open())
+        if (line == 0)
         {
-            for (size_t i = 0; i < nLines; i++)
-            {
-                if (!getline(file, data))
-                    break;
+            while (std::getline(file, data))
                 items.push_back(data);
-            }
-            file.close();
         }
         else
         {
-            throw std::runtime_error("Error: Unable to open file " + fileName + " for reading.");
+            int i = 1;
+            while (std::getline(file, data))
+            {
+                if (i == line)
+                    items.push_back(data);
+                i++;
+            }
         }
         return items;
     }
 
     void write(std::string fileName, std::string data, size_t nLines)
     {
-        file.open(fileName);
+        std::ofstream file(fileName);
         if (file.is_open())
         {
             for (size_t i = 0; i < nLines; i++)

@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcmake_gernerated_app.a CMakeFiles/cmake_gernerated_app.dir/File_Io.cpp.o
+/usr/bin/ranlib libcmake_gernerated_app.a

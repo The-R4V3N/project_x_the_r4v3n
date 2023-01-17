@@ -1,5 +1,5 @@
 
-#include "file_io.h"
+#include "File_Io.h"
 #include <string>
 #include <iostream>
 
@@ -37,10 +37,14 @@ int main(int argc, char *argv[])
 
     // Read once.
     std::cout << "Read once: " << std::endl;
-    std::cout << FileIO.read<std::string>(fileName, 1) << std::endl;
+    std::vector<std::string> readOnce = FileIO.read(fileName, 1);
+    if (!readOnce.empty())
+        std::cout << readOnce[0] << std::endl;
+    else
+        std::cout << "Error: Unable to read from file" << std::endl;
 
     // Read multiple lines.
-    std::vector<std::string> myData = FileIO.read<std::vector<std::string>>(fileName, 0);
+    std::vector<std::string> myData = FileIO.read(fileName, 0);
     std::cout << "Read multiple lines: " << std::endl;
     for (auto data : myData)
     {
