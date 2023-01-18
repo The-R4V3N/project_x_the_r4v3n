@@ -84,7 +84,7 @@ public:
 
     void write(std::string fileName, std::string data, size_t nLines)
     {
-        std::ofstream file(fileName);
+        std::ofstream file(fileName, std::ios::app);
         if (file.is_open())
         {
             for (size_t i = 0; i < nLines; i++)

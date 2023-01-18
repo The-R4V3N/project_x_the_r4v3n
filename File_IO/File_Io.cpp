@@ -16,14 +16,15 @@ int main(int argc, char *argv[])
 
     // Get input from the user
     std::string line;
-    std::cout << "Enter the string you want to write to the file: ";
+    std::cout << "Enter the string you want to write to the file: " << std::endl;
     std::getline(std::cin, line);
 
     // Write once.
     FileIO.write(fileName, line, 1);
 
     // Write multiple lines.
-    std::vector<std::string> messages = {"Hello", "I am a", "Software", "Developer"};
+    std::vector<std::string> messages = {"Hello\n", "I am a\n", "Software\n", "Developer\n"};
+
     // iterate through the messages vector and writing each element to the file individually
     for (auto message : messages)
         FileIO.write(fileName, message, 1);
