@@ -1,4 +1,4 @@
-/mnt/c/dev/The-R4V3N/project_x/project_x/File_IO/build/CMakeFiles/cmake_gernerated_app.dir
-/mnt/c/dev/The-R4V3N/project_x/project_x/File_IO/build/CMakeFiles/File_Io.dir
-/mnt/c/dev/The-R4V3N/project_x/project_x/File_IO/build/CMakeFiles/edit_cache.dir
-/mnt/c/dev/The-R4V3N/project_x/project_x/File_IO/build/CMakeFiles/rebuild_cache.dir
+/mnt/c/Dev/The-R4V3N/project_X/project_X/File_IO/build/CMakeFiles/File_Io_lib.dir
+/mnt/c/Dev/The-R4V3N/project_X/project_X/File_IO/build/CMakeFiles/my_app.dir
+/mnt/c/Dev/The-R4V3N/project_X/project_X/File_IO/build/CMakeFiles/edit_cache.dir
+/mnt/c/Dev/The-R4V3N/project_X/project_X/File_IO/build/CMakeFiles/rebuild_cache.dir

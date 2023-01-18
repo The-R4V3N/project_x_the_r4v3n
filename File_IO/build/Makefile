@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/c/dev/The-R4V3N/project_x/project_x/File_IO
+CMAKE_SOURCE_DIR = /mnt/c/Dev/The-R4V3N/project_X/project_X/File_IO
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/c/dev/The-R4V3N/project_x/project_x/File_IO/build
+CMAKE_BINARY_DIR = /mnt/c/Dev/The-R4V3N/project_X/project_X/File_IO/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/dev/The-R4V3N/project_x/project_x/File_IO/build/CMakeFiles /mnt/c/dev/The-R4V3N/project_x/project_x/File_IO/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Dev/The-R4V3N/project_X/project_X/File_IO/build/CMakeFiles /mnt/c/Dev/The-R4V3N/project_X/project_X/File_IO/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/dev/The-R4V3N/project_x/project_x/File_IO/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Dev/The-R4V3N/project_X/project_X/File_IO/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -117,57 +117,78 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named cmake_gernerated_app
+# Target rules for targets named File_Io_lib
 
 # Build rule for target.
-cmake_gernerated_app: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cmake_gernerated_app
-.PHONY : cmake_gernerated_app
+File_Io_lib: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 File_Io_lib
+.PHONY : File_Io_lib
 
 # fast build rule for target.
-cmake_gernerated_app/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmake_gernerated_app.dir/build.make CMakeFiles/cmake_gernerated_app.dir/build
-.PHONY : cmake_gernerated_app/fast
+File_Io_lib/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/File_Io_lib.dir/build.make CMakeFiles/File_Io_lib.dir/build
+.PHONY : File_Io_lib/fast
 
 #=============================================================================
-# Target rules for targets named File_Io
+# Target rules for targets named my_app
 
 # Build rule for target.
-File_Io: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 File_Io
-.PHONY : File_Io
+my_app: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 my_app
+.PHONY : my_app
 
 # fast build rule for target.
-File_Io/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/File_Io.dir/build.make CMakeFiles/File_Io.dir/build
-.PHONY : File_Io/fast
+my_app/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_app.dir/build.make CMakeFiles/my_app.dir/build
+.PHONY : my_app/fast
 
-File_Io.o: File_Io.cpp.o
-.PHONY : File_Io.o
+app/src/main.o: app/src/main.cpp.o
+.PHONY : app/src/main.o
 
 # target to build an object file
-File_Io.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmake_gernerated_app.dir/build.make CMakeFiles/cmake_gernerated_app.dir/File_Io.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/File_Io.dir/build.make CMakeFiles/File_Io.dir/File_Io.cpp.o
-.PHONY : File_Io.cpp.o
+app/src/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_app.dir/build.make CMakeFiles/my_app.dir/app/src/main.cpp.o
+.PHONY : app/src/main.cpp.o
 
-File_Io.i: File_Io.cpp.i
-.PHONY : File_Io.i
+app/src/main.i: app/src/main.cpp.i
+.PHONY : app/src/main.i
 
 # target to preprocess a source file
-File_Io.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmake_gernerated_app.dir/build.make CMakeFiles/cmake_gernerated_app.dir/File_Io.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/File_Io.dir/build.make CMakeFiles/File_Io.dir/File_Io.cpp.i
-.PHONY : File_Io.cpp.i
+app/src/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_app.dir/build.make CMakeFiles/my_app.dir/app/src/main.cpp.i
+.PHONY : app/src/main.cpp.i
 
-File_Io.s: File_Io.cpp.s
-.PHONY : File_Io.s
+app/src/main.s: app/src/main.cpp.s
+.PHONY : app/src/main.s
 
 # target to generate assembly for a file
-File_Io.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmake_gernerated_app.dir/build.make CMakeFiles/cmake_gernerated_app.dir/File_Io.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/File_Io.dir/build.make CMakeFiles/File_Io.dir/File_Io.cpp.s
-.PHONY : File_Io.cpp.s
+app/src/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_app.dir/build.make CMakeFiles/my_app.dir/app/src/main.cpp.s
+.PHONY : app/src/main.cpp.s
+
+lib/src/File_Io.o: lib/src/File_Io.cpp.o
+.PHONY : lib/src/File_Io.o
+
+# target to build an object file
+lib/src/File_Io.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/File_Io_lib.dir/build.make CMakeFiles/File_Io_lib.dir/lib/src/File_Io.cpp.o
+.PHONY : lib/src/File_Io.cpp.o
+
+lib/src/File_Io.i: lib/src/File_Io.cpp.i
+.PHONY : lib/src/File_Io.i
+
+# target to preprocess a source file
+lib/src/File_Io.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/File_Io_lib.dir/build.make CMakeFiles/File_Io_lib.dir/lib/src/File_Io.cpp.i
+.PHONY : lib/src/File_Io.cpp.i
+
+lib/src/File_Io.s: lib/src/File_Io.cpp.s
+.PHONY : lib/src/File_Io.s
+
+# target to generate assembly for a file
+lib/src/File_Io.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/File_Io_lib.dir/build.make CMakeFiles/File_Io_lib.dir/lib/src/File_Io.cpp.s
+.PHONY : lib/src/File_Io.cpp.s
 
 # Help Target
 help:
@@ -177,11 +198,14 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... File_Io"
-	@echo "... cmake_gernerated_app"
-	@echo "... File_Io.o"
-	@echo "... File_Io.i"
-	@echo "... File_Io.s"
+	@echo "... File_Io_lib"
+	@echo "... my_app"
+	@echo "... app/src/main.o"
+	@echo "... app/src/main.i"
+	@echo "... app/src/main.s"
+	@echo "... lib/src/File_Io.o"
+	@echo "... lib/src/File_Io.i"
+	@echo "... lib/src/File_Io.s"
 .PHONY : help
 
 

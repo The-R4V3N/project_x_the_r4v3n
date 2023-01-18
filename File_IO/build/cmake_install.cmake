@@ -1,4 +1,4 @@
-# Install script for directory: /mnt/c/dev/The-R4V3N/project_x/project_x/File_IO
+# Install script for directory: /mnt/c/Dev/The-R4V3N/project_X/project_X/File_IO
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/mnt/c/dev/The-R4V3N/project_x/project_x/File_IO/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/mnt/c/Dev/The-R4V3N/project_X/project_X/File_IO/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

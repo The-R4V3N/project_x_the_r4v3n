@@ -54,17 +54,17 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/c/dev/The-R4V3N/project_x/project_x/File_IO
+CMAKE_SOURCE_DIR = /mnt/c/Dev/The-R4V3N/project_X/project_X/File_IO
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/c/dev/The-R4V3N/project_x/project_x/File_IO/build
+CMAKE_BINARY_DIR = /mnt/c/Dev/The-R4V3N/project_X/project_X/File_IO/build
 
 #=============================================================================
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/cmake_gernerated_app.dir/all
-all: CMakeFiles/File_Io.dir/all
+all: CMakeFiles/File_Io_lib.dir/all
+all: CMakeFiles/my_app.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -72,61 +72,61 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/cmake_gernerated_app.dir/clean
-clean: CMakeFiles/File_Io.dir/clean
+clean: CMakeFiles/File_Io_lib.dir/clean
+clean: CMakeFiles/my_app.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/cmake_gernerated_app.dir
+# Target rules for target CMakeFiles/File_Io_lib.dir
 
 # All Build rule for target.
-CMakeFiles/cmake_gernerated_app.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmake_gernerated_app.dir/build.make CMakeFiles/cmake_gernerated_app.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmake_gernerated_app.dir/build.make CMakeFiles/cmake_gernerated_app.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/c/dev/The-R4V3N/project_x/project_x/File_IO/build/CMakeFiles --progress-num=3,4 "Built target cmake_gernerated_app"
-.PHONY : CMakeFiles/cmake_gernerated_app.dir/all
+CMakeFiles/File_Io_lib.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/File_Io_lib.dir/build.make CMakeFiles/File_Io_lib.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/File_Io_lib.dir/build.make CMakeFiles/File_Io_lib.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/c/Dev/The-R4V3N/project_X/project_X/File_IO/build/CMakeFiles --progress-num=1,2 "Built target File_Io_lib"
+.PHONY : CMakeFiles/File_Io_lib.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/cmake_gernerated_app.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/dev/The-R4V3N/project_x/project_x/File_IO/build/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/cmake_gernerated_app.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/dev/The-R4V3N/project_x/project_x/File_IO/build/CMakeFiles 0
-.PHONY : CMakeFiles/cmake_gernerated_app.dir/rule
+CMakeFiles/File_Io_lib.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Dev/The-R4V3N/project_X/project_X/File_IO/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/File_Io_lib.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Dev/The-R4V3N/project_X/project_X/File_IO/build/CMakeFiles 0
+.PHONY : CMakeFiles/File_Io_lib.dir/rule
 
 # Convenience name for target.
-cmake_gernerated_app: CMakeFiles/cmake_gernerated_app.dir/rule
-.PHONY : cmake_gernerated_app
+File_Io_lib: CMakeFiles/File_Io_lib.dir/rule
+.PHONY : File_Io_lib
 
 # clean rule for target.
-CMakeFiles/cmake_gernerated_app.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmake_gernerated_app.dir/build.make CMakeFiles/cmake_gernerated_app.dir/clean
-.PHONY : CMakeFiles/cmake_gernerated_app.dir/clean
+CMakeFiles/File_Io_lib.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/File_Io_lib.dir/build.make CMakeFiles/File_Io_lib.dir/clean
+.PHONY : CMakeFiles/File_Io_lib.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/File_Io.dir
+# Target rules for target CMakeFiles/my_app.dir
 
 # All Build rule for target.
-CMakeFiles/File_Io.dir/all: CMakeFiles/cmake_gernerated_app.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/File_Io.dir/build.make CMakeFiles/File_Io.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/File_Io.dir/build.make CMakeFiles/File_Io.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/c/dev/The-R4V3N/project_x/project_x/File_IO/build/CMakeFiles --progress-num=1,2 "Built target File_Io"
-.PHONY : CMakeFiles/File_Io.dir/all
+CMakeFiles/my_app.dir/all: CMakeFiles/File_Io_lib.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_app.dir/build.make CMakeFiles/my_app.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_app.dir/build.make CMakeFiles/my_app.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/c/Dev/The-R4V3N/project_X/project_X/File_IO/build/CMakeFiles --progress-num=3,4 "Built target my_app"
+.PHONY : CMakeFiles/my_app.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/File_Io.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/dev/The-R4V3N/project_x/project_x/File_IO/build/CMakeFiles 4
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/File_Io.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/dev/The-R4V3N/project_x/project_x/File_IO/build/CMakeFiles 0
-.PHONY : CMakeFiles/File_Io.dir/rule
+CMakeFiles/my_app.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Dev/The-R4V3N/project_X/project_X/File_IO/build/CMakeFiles 4
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/my_app.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Dev/The-R4V3N/project_X/project_X/File_IO/build/CMakeFiles 0
+.PHONY : CMakeFiles/my_app.dir/rule
 
 # Convenience name for target.
-File_Io: CMakeFiles/File_Io.dir/rule
-.PHONY : File_Io
+my_app: CMakeFiles/my_app.dir/rule
+.PHONY : my_app
 
 # clean rule for target.
-CMakeFiles/File_Io.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/File_Io.dir/build.make CMakeFiles/File_Io.dir/clean
-.PHONY : CMakeFiles/File_Io.dir/clean
+CMakeFiles/my_app.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_app.dir/build.make CMakeFiles/my_app.dir/clean
+.PHONY : CMakeFiles/my_app.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

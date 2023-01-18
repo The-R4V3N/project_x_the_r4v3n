@@ -1,3 +1,9 @@
-
-.vscode
+.vscode/
 *.yaml
+build/
+**/build
+*.o
+*.obj
+*.a
+**/todo.md
+**/Makefile
