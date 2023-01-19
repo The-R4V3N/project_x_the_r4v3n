@@ -28,4 +28,4 @@ jobs:
           cmake ../File_IO
           cmake --build .
       - name: run tests
-        run: echo "Testing..."
+        run: ./build/lib_ut_tests
