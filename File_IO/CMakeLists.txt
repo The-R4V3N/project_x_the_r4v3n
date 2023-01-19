@@ -48,8 +48,8 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 #Download or check that googletest is downloaded:
 FetchContent_MakeAvailable(googletest)
 
-
-add_executable(lib_ut_tests lib/ut/test.cpp )
-
+# Built Unity Test
+add_executable(lib_ut_tests lib/ut/test.cpp   )
 target_link_libraries(lib_ut_tests gtest gtest_main File_Io)
 
+#lib/ut/ut_lib_test.cpp

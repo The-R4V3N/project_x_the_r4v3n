@@ -11,13 +11,15 @@ int main(int argc, char *argv[])
     std::string fileName = argv[1];
     FileOps FileIO;
 
-    // Get input from the user
-    std::string line;
-    std::cout << "Enter the string you want to write to the file: " << std::endl;
-    std::getline(std::cin, line);
+    // Write "Write once"
+    FileIO.write(fileName, "Line one\n", 1);
+    // // Get input from the user
+    // std::string line;
+    // std::cout << "Enter the string you want to write to the file: " << std::endl;
+    // std::getline(std::cin, line);
 
-    // Write once.
-    FileIO.write(fileName, line, 1);
+    // // Write once.
+    // FileIO.write(fileName, line, 1);
 
     // Write multiple lines.
     std::vector<std::string> messages = {"Hello\n", "I am a\n", "Software\n", "Developer\n"};
