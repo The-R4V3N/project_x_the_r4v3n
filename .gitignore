@@ -1,5 +1,4 @@
 .vscode/
-*.yaml
 build/
 **/build
 *.o
