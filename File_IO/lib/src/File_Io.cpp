@@ -2,48 +2,54 @@
 
 std::vector<std::string> FileOps::read(std::string fileName, size_t line)
 {
-    std::vector<std::string> items;
-    std::ifstream file(fileName);
-    std::string data;
-    if (line == 0)
+    std::vector<std::string> data;
+    std::ifstream inFile(fileName);
+    std::string lineData;
+    if (inFile.is_open())
     {
-        while (std::getline(file, data))
-            items.push_back(data);
-    }
-    else
-    {
-        int i = 1;
-        while (std::getline(file, data))
+        if (line)
         {
-            if (i == line)
-                items.push_back(data);
-            i++;
+            for (size_t i = 0; i < line; i++)
+            {
+                if (std::getline(inFile, lineData))
+                {
+                    data.push_back(lineData);
+                }
+            }
         }
+        else
+        {
+            while (std::getline(inFile, lineData))
+            {
+                data.push_back(lineData);
+            }
+        }
+        inFile.close();
     }
-    return items;
+    return data;
 }
 
-void write(std::string fileName, std::string data, size_t nLines)
+void FileOps::write(std::string fileName, std::string data, size_t nLines)
 {
-    std::ofstream file(fileName, std::ios::app);
-    if (file.is_open())
+    std::ofstream outFile(fileName);
+    if (outFile.is_open())
     {
-        for (size_t i = 0; i < nLines; i++)
+        if (nLines)
         {
-            file << data;
-            if (i < nLines - 1)
-                file << '\n';
+            for (size_t i = 0; i < nLines; i++)
+            {
+                outFile << data << std::endl;
+            }
         }
-
-        file.close();
-    }
-    else
-    {
-        throw std::runtime_error("Error: Unable to open file " + fileName + " for writing.");
+        else
+        {
+            outFile << data;
+        }
+        outFile.close();
     }
 }
 
-bool fileExists(const std::string &name)
+bool FileOps::fileExists(const std::string &name)
 {
     std::ifstream f(name.c_str());
     return f.good();
