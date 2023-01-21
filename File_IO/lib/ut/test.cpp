@@ -11,8 +11,11 @@ TEST(FileOpsTest, TestReadFunction)
     // Create a test file with known contents
     std::ofstream testFile(fileName);
     // Check if testFile is closed if it is closed throw exception
-    EXPECT_EQ(testFile.is_open(), true);
-
+    // EXPECT_EQ(testFile.is_open(), true);
+    if (!testFile.is_open())
+    {
+        throw std::runtime_error("Failed to open file: " + fileName);
+    }
     testFile << "Line one\nHello\nI am a";
     testFile.close();
     // Check if testFile is really closed
@@ -57,7 +60,11 @@ TEST(FileOpsTest, TestWriteFunction)
 
     updatedFile.close();
     // Check if updatedFile is really closed
-    EXPECT_EQ(updatedFile.is_open(), false);
+    // EXPECT_EQ(updatedFile.is_open(), false);
+    if (updatedFile.is_open())
+    {
+        throw std::runtime_error("Failed to close file: test.txt");
+    }
 
     // Clean up the test file
     std::remove("test.txt");
