@@ -52,4 +52,4 @@ FetchContent_MakeAvailable(googletest)
 add_executable(lib_ut_tests lib/ut/test.cpp   )
 target_link_libraries(lib_ut_tests gtest gtest_main File_Io)
 
-#lib/ut/ut_lib_test.cpp
+#lib/ut/ut_lib_test.cpp // this was is target_link_libraries call

@@ -11,8 +11,9 @@ int main(int argc, char *argv[])
     std::string fileName = argv[1];
     FileOps FileIO;
 
-    // Write "Write once"
-    FileIO.write(fileName, "Line one\n", 1);
+    std::string line = "\nWhat does a";
+    // Write once.
+    FileIO.write(fileName, line, 1);
     // // Get input from the user
     // std::string line;
     // std::cout << "Enter the string you want to write to the file: " << std::endl;
@@ -21,12 +22,10 @@ int main(int argc, char *argv[])
     // // Write once.
     // FileIO.write(fileName, line, 1);
 
+    std::vector<std::string> messages = {"Software\n", "Developer\n", "do all day?\n", "He is\n", "Developing\n", "Software\n", "all day.\n"};
     // Write multiple lines.
-    std::vector<std::string> messages = {"Hello\n", "I am a\n", "Software\n", "Developer\n"};
-
-    // iterate through the messages vector and writing each element to the file individually
     for (auto message : messages)
-        FileIO.write(fileName, message, 1);
+        FileIO.write(fileName, message, 0);
 
     // Check if file exists
     if (!FileIO.fileExists(fileName))

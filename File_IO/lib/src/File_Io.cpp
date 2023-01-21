@@ -31,7 +31,7 @@ std::vector<std::string> FileOps::read(std::string fileName, size_t line)
 
 void FileOps::write(std::string fileName, std::string data, size_t nLines)
 {
-    std::ofstream outFile(fileName);
+    std::ofstream outFile(fileName, std::ios_base::app);
     if (outFile.is_open())
     {
         if (nLines)
