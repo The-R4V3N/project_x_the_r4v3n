@@ -6,3 +6,5 @@ build/
 *.a
 **/todo.md
 **/Makefile
+Component_Test/
+**/Component_Test

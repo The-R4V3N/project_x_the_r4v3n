@@ -1,56 +1,33 @@
 #include "File_Io.h"
 
-std::vector<std::string> FileOps::read(std::string fileName, size_t line)
+bool FileOps::fileExists(std::string fileName)
+{
+    std::ifstream infile(fileName);
+    return infile.good();
+}
+
+std::vector<std::string> FileOps::read(std::string fileName)
 {
     std::vector<std::string> data;
+    std::string line;
     std::ifstream inFile(fileName);
-    std::string lineData;
     if (inFile.is_open())
     {
-        if (line)
+        while (std::getline(inFile, line))
         {
-            for (size_t i = 0; i < line; i++)
-            {
-                if (std::getline(inFile, lineData))
-                {
-                    data.push_back(lineData);
-                }
-            }
-        }
-        else
-        {
-            while (std::getline(inFile, lineData))
-            {
-                data.push_back(lineData);
-            }
+            data.push_back(line);
         }
         inFile.close();
     }
     return data;
 }
 
-void FileOps::write(std::string fileName, std::string data, size_t nLines)
+void FileOps::write(std::string fileName, std::string data)
 {
     std::ofstream outFile(fileName, std::ios_base::app);
     if (outFile.is_open())
     {
-        if (nLines)
-        {
-            for (size_t i = 0; i < nLines; i++)
-            {
-                outFile << data << std::endl;
-            }
-        }
-        else
-        {
-            outFile << data;
-        }
+        outFile << data << std::endl;
         outFile.close();
     }
-}
-
-bool FileOps::fileExists(const std::string &name)
-{
-    std::ifstream f(name.c_str());
-    return f.good();
 }
