@@ -25,9 +25,9 @@ include_directories(lib/include)
 add_library(File_Io ${SourcesLib})
 
 # Adding the executable
-add_executable(my_app ${SourcesApp})
+add_executable(${app} ${SourcesApp})
 
-# Link mmy library to an executable
+# Link my library to an executable
 target_link_libraries(my_app File_Io)
 
 #GoogleTest part

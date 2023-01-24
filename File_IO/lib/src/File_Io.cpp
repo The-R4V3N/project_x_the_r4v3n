@@ -17,12 +17,13 @@ std::vector<std::string> FileOps::read(std::string fileName)
         {
             data.push_back(line);
         }
+        inFile.close();
     }
     else
     {
         throw std::runtime_error("Error opening file " + fileName);
     }
-    inFile.close();
+
     return data;
 }
 

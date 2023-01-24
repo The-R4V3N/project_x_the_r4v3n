@@ -33,7 +33,7 @@ class FileOps
 {
 public:
     FileOps(){};
-    bool fileExists(std::string fileName);
+    static bool fileExists(std::string fileName);
     std::vector<std::string> read(std::string fileName);
     void write(std::string fileName, std::vector<std::string> data);
 };
