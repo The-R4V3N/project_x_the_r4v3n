@@ -16,9 +16,6 @@ int main(int argc, char *argv[])
     std::cout << "Enter the string you want to write to the file: " << std::endl;
     std::getline(std::cin, line);
 
-    // Write once.
-    FileIO.write(fileName, line);
-
     // Get input from the user
     std::vector<std::string> messages;
     std::string message;
@@ -34,7 +31,7 @@ int main(int argc, char *argv[])
 
     // Write multiple lines.
     for (auto message : messages)
-        FileIO.write(fileName, message);
+        FileIO.write(fileName, messages);
 
     // Check if file exists
     std::ifstream file(fileName);

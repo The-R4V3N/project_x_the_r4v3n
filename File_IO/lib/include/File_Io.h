@@ -35,7 +35,7 @@ public:
     FileOps(){};
     bool fileExists(std::string fileName);
     std::vector<std::string> read(std::string fileName);
-    void write(std::string fileName, std::string data);
+    void write(std::string fileName, std::vector<std::string> data);
 };
 
 #endif /* FILE_IO_H */

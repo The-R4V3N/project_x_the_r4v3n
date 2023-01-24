@@ -17,17 +17,24 @@ std::vector<std::string> FileOps::read(std::string fileName)
         {
             data.push_back(line);
         }
-        inFile.close();
     }
+    else
+    {
+        throw std::runtime_error("Error opening file " + fileName);
+    }
+    inFile.close();
     return data;
 }
 
-void FileOps::write(std::string fileName, std::string data)
+void FileOps::write(std::string fileName, std::vector<std::string> data)
 {
     std::ofstream outFile(fileName, std::ios_base::app);
     if (outFile.is_open())
     {
-        outFile << data << std::endl;
+        for (const std::string &line : data)
+        {
+            outFile << line << std::endl;
+        }
         outFile.close();
     }
 }

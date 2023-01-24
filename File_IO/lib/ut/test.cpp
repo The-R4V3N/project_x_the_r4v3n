@@ -22,8 +22,6 @@ TEST(FileOpsTest, TestReadFunction)
     std::vector<std::string> expected = {"Line one", "Hello"};
 
     EXPECT_EQ(result, expected);
-    // assume, that the size of vector "expected" will always greater or equal to result
-    // i.t. expected.size() >= result.size()
     // iterate through vectors and comparing each string separately to be sure
     for (size_t idx = 0; idx < result.size(); ++idx)
     {
@@ -36,10 +34,13 @@ TEST(FileOpsTest, TestReadFunction)
 
 TEST(FileOpsTest, TestWriteFunction)
 {
+    // Prepare the data to be written
+    std::vector<std::string> data = {"Hello", "I am a", "Software", "Developer"};
+
     // Call the write function
     try
     {
-        fileops.write("test.txt", "Hello\nI am a\nSoftware\nDeveloper");
+        fileops.write("test.txt", data);
     }
     catch (const std::runtime_error &e)
     {
@@ -47,21 +48,9 @@ TEST(FileOpsTest, TestWriteFunction)
         return;
     }
 
-    // Check the contents of the file after the write
-    std::ifstream updatedFile("test.txt");
-    std::string updatedContents((std::istreambuf_iterator<char>(updatedFile)),
-                                std::istreambuf_iterator<char>());
-    std::string expectedContents = "Hello\nI am a\nSoftware\nDeveloper\n";
-    // std::string expectedContents = "Line 1\nNew Line\nLine 3";
-    EXPECT_EQ(updatedContents, expectedContents);
-
-    updatedFile.close();
-    // Check if updatedFile is really closed
-    // EXPECT_EQ(updatedFile.is_open(), false);
-    if (updatedFile.is_open())
-    {
-        throw std::runtime_error("Failed to close file: test.txt");
-    }
+    // Verify that the file was written correctly
+    std::vector<std::string> written_data = fileops.read("test.txt");
+    EXPECT_EQ(data, written_data);
 
     // Clean up the test file
     std::remove("test.txt");
