@@ -28,7 +28,7 @@ add_library(File_Io ${SourcesLib})
 add_executable(${app} ${SourcesApp})
 
 # Link my library to an executable
-target_link_libraries(my_app File_Io)
+target_link_libraries(${app} File_Io)
 
 #GoogleTest part
 
