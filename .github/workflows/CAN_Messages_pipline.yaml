@@ -28,7 +28,7 @@ jobs:
 #          cd build
 #          cmake ../CAN_Messages
 #          cmake --build .
-            echo "running python code"
+          echo "running python code"
       - name: run tests
 #        run: ./build/lib_ut_tests
         run: echo "running tests"
