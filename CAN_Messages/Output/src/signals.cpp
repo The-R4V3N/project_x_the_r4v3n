@@ -21,5 +21,6 @@ void CAN_signals::set_humidity(float newValue) {
 }
 
 private:
-float m_temperature;
-float m_humidity;
+
+	float m_temperature;
+	float m_humidity;
