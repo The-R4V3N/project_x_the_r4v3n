@@ -39,7 +39,7 @@ def generate_signals_header(data):
     # Define constant values
     ifndef_define = "#ifndef SIGNALS_H"
     define = "#define SIGNALS_H"
-    endif = "#endif /* SIGNALS_H */\n"
+    endif = "#endif /* SIGNALS_H */"
     include = "\n#include<sstream>\n#include<string>\n"
 
     header_file.write("{}\n{}\n{}\n".format(ifndef_define, define, include))
@@ -111,7 +111,7 @@ def generate_signals_source(data):
 
         if signal["name"] == "humidity":
 
-            source_file.write("std::string CAN_signals::set_{}(uint8_t newValue) {{\n\tstd::stringstream sstream;\n\tsstream << \"{{\\\"ID\\\": \" << m_{}SetMsgId\n\t\t\t\t<< \", \\\"length\\\":10 \"\n\t\t\t\t<< \", \\\"value\\\": \\\"\" << newValue << \"\\\" }}\";\n\treturn sstream.str();\n}}\n\n".format(
+            source_file.write("std::string CAN_signals::set_{}(uint8_t newValue) {{\n\tstd::stringstream sstream;\n\tsstream << \"{{\\\"ID\\\": \" << m_{}SetMsgId\n\t\t\t\t<< \", \\\"length\\\":10 \"\n\t\t\t\t<< \", \\\"value\\\": \\\"\" << newValue << \"\\\" }}\";\n\treturn sstream.str();\n}}\n".format(
                 formatted_name, formatted_name))
 
         elif signal["name"] == "temperature":

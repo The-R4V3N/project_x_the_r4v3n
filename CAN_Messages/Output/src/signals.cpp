@@ -39,4 +39,3 @@ std::string CAN_signals::set_humidity(uint8_t newValue) {
 				<< ", \"value\": \"" << newValue << "\" }";
 	return sstream.str();
 }
-

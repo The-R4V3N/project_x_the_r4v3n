@@ -34,4 +34,3 @@ class CAN_signals
 };
 
 #endif /* SIGNALS_H */
-
