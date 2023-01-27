@@ -1,18 +1,36 @@
 #ifndef SIGNALS_H
 #define SIGNALS_H
 
+#include<sstream>
+#include<string>
+
 class CAN_signals
 {
-public: 
-	CAN_signals();
-	float get_temperature();
-	void set_temperature(float newValue);
-	float get_humidity();
-	void set_humidity(float newValue);
+	public: 
+		CAN_signals();
+		/*
+		get temperature
+		*/
+		std::string get_temperature();
+		/*
+		set temperature
+		*/
+		std::string set_temperature(float newValue);
+		/*
+		get humidity   
+		*/
+		std::string get_humidity   ();
+		/*
+		set humidity   
+		*/
+		std::string set_humidity   (float newValue);
 
-private: 
-	float m_temperature;
-	float m_humidity;
+	private: 
+		uint8_t m_startMsgId;
+		uint8_t m_temperatureGetMsgId;
+		uint8_t m_temperatureSetMsgId;
+		uint8_t m_humidityGetMsgId;
+		uint8_t m_humiditySetMsgId;
 };
 
 #endif /* SIGNALS_H */

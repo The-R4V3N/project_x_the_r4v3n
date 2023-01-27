@@ -8,6 +8,8 @@ file_name = 'signals'
 # Save the file  path to a variable
 file_path = 'signals.json'
 
+signal_name = 'name'
+
 # Check if file the path is provided
 if not file_path:
     print("Error: No file path provided.")
@@ -21,10 +23,6 @@ try:
 except FileNotFoundError:
     print(f"Error: {file_path} not found.")
     sys.exit(1)
-
-# Check if the data is correctly converted
-# The data is now a dictionary
-# print(data)
 
 
 # Define header file
@@ -42,14 +40,15 @@ def generate_signals_header(data):
     ifndef_define = "#ifndef SIGNALS_H"
     define = "#define SIGNALS_H"
     endif = "#endif /* SIGNALS_H */\n"
+    include = "\n#include<sstream>\n#include<string>\n"
 
-    header_file.write("{}\n{}\n\n".format(ifndef_define, define))
+    header_file.write("{}\n{}\n{}\n".format(ifndef_define, define, include))
 
     # Define classes used
     can = 'class CAN_signals\n{'
-    public = '\npublic: \n'
-    private = '\nprivate: \n'
-    signal = '\tCAN_signals();\n'
+    public = '\n\tpublic: \n'
+    private = '\n\tprivate: \n'
+    signal = '\t\tCAN_signals();\n'
 
     # Write class definition
     header_file.write(can + public)
@@ -57,13 +56,20 @@ def generate_signals_header(data):
 
     # Write getter and setter prototypes for each signal
     for signal in data[file_name]:
-        header_file.write("\tfloat get_{}();\n".format(signal["name"]))
-        header_file.write("\tvoid set_{}(float newValue);\n".format(
-            signal["name"]))
+        header_file.write(
+            "\t\t/*\n\t\tget {}\n\t\t*/\n".format(signal["name"]))
+        header_file.write("\t\tstd::string get_{}();\n".format(signal["name"]))
+        header_file.write(
+            "\t\t/*\n\t\tset {}\n\t\t*/\n".format(signal["name"]))
+        header_file.write(
+            "\t\tstd::string set_{}(float newValue);\n".format(signal["name"]))
 
     header_file.write(private)
+    header_file.write("\t\tuint8_t m_startMsgId;\n")
     for signal in data[file_name]:
-        header_file.write("\tfloat m_{};\n".format(signal["name"]))
+        formatted_name = signal["name"].replace(" ", "")
+        header_file.write("\t\tuint8_t m_{}GetMsgId;\n".format(formatted_name))
+        header_file.write("\t\tuint8_t m_{}SetMsgId;\n".format(formatted_name))
 
     header_file.write("};\n\n")
     header_file.write("{}\n".format(endif))
@@ -73,7 +79,7 @@ def generate_signals_header(data):
 def generate_signals_source(data):
     # check if folder exist if not creates it
     if not os.path.exists('Output/src'):
-        os.makedirs('Output/srcs')
+        os.makedirs('Output/src')
 
     # Define file path and open file for writing
     source_file_path = os.path.join('Output/src', file_name + '.cpp')
@@ -81,31 +87,26 @@ def generate_signals_source(data):
 
     # Define constant values
     header_include = '#include \"signals.h\"\n\n'
-    private = "private:\n\n"
 
     # Include the header file
     source_file.write(header_include)
 
     # Write constructor implementation
     source_file.write(
-        "CAN_signals::CAN_signals() {\n    // constructor implementation\n}\n\n")
+        "CAN_signals::CAN_signals() {\n\tm_startMsgId = 100;\n\tm_temperatureGetMsgId = m_startMsgId + 2;\n\tm_temperatureSetMsgId = m_startMsgId + 2 + 1;\n\tm_humidityGetMsgId = m_startMsgId + 4;\n\tm_humiditySetMsgId = m_startMsgId + 4 + 1;\n}\n\n")
 
     # Write getter and setter implementations for each signal
-    for signal in data[file_name]:
-        source_file.write("float CAN_signals::get_{}() {{\n    return m_{};\n}}\n\n".format(
-            signal["name"], signal["name"]))
-        source_file.write("void CAN_signals::set_{}(float newValue) {{\n    m_{} = newValue;\n}}\n\n".format(
-            signal["name"], signal["name"]))
-
-    # !Getting an error here in the cpp file. it says expected a declaration but the same code line works in the header file. Cant figure out what is wrong here!!!!!!
-    # Declare private variables for storing signal values
-    source_file.write(private)
-    for signal in data[file_name]:
-        source_file.write("\tfloat m_{};\n".format(signal["name"]))
-
-    # Close file
+    for signal in data["signals"]:
+        formatted_name = signal["name"].replace(" ", "")
+        source_file.write("std::string CAN_signals::get_{}() {{\n\tstd::stringstream sstream;\n\tsstream << \"{{\\\"ID\\\": \" << m_{}GetMsgId\n\t\t\t\t<< \", \\\"length\\\":0 \"\n\t\t\t\t<< \",  \\\"value\\\": \\\"\\\" }}\";\n\treturn sstream.str();\n}}\n\n".format(
+            formatted_name, formatted_name))
+        source_file.write("std::string CAN_signals::set_{}(float newValue) {{\n\tstd::stringstream sstream;\n\tsstream << \"{{\\\"ID\\\": \" << m_{}SetMsgId\n\t\t\t\t<< \", \\\"length\\\":10 \"\n\t\t\t\t<< \", \\\"value\\\": \\\"\" << newValue << \"\\\" }}\";\n\treturn sstream.str();\n}}\n\n".format(
+            formatted_name, formatted_name))
     source_file.close()
 
+
+data = {file_name: [{"name": "temperature"}, {"name": "humidity   "}]}
+file_name = "signals"
 
 generate_signals_header(data)
 generate_signals_source(data)
