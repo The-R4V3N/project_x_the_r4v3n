@@ -32,7 +32,7 @@ std::string CAN_signals::get_humidity() {
 	return sstream.str();
 }
 
-std::string CAN_signals::set_humidity(float newValue) {
+std::string CAN_signals::set_humidity(uint8_t newValue) {
 	std::stringstream sstream;
 	sstream << "{\"ID\": " << m_humiditySetMsgId
 				<< ", \"length\":10 "

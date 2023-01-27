@@ -15,7 +15,7 @@ if not file_path:
     print("Error: No file path provided.")
     sys.exit(1)
 
-# Open the JSON file
+# Open the JSON file if file is not present Error handling is happening
 try:
     with open(file_path, 'r') as f:
         # Load the JSON data from the file
@@ -61,9 +61,14 @@ def generate_signals_header(data):
         header_file.write("\t\tstd::string get_{}();\n".format(signal["name"]))
         header_file.write(
             "\t\t/*\n\t\tset {}\n\t\t*/\n".format(signal["name"]))
-        header_file.write(
-            "\t\tstd::string set_{}(float newValue);\n".format(signal["name"]))
+        if signal["name"] == "humidity":
+            header_file.write(
+                "\t\tstd::string set_{}(uint8_t newValue);\n".format(signal["name"]))
+        elif signal["name"] == "temperature":
+            header_file.write(
+                "\t\tstd::string set_{}(float newValue);\n".format(signal["name"]))
 
+    # Write private class functions
     header_file.write(private)
     header_file.write("\t\tuint8_t m_startMsgId;\n")
     for signal in data[file_name]:
@@ -71,9 +76,12 @@ def generate_signals_header(data):
         header_file.write("\t\tuint8_t m_{}GetMsgId;\n".format(formatted_name))
         header_file.write("\t\tuint8_t m_{}SetMsgId;\n".format(formatted_name))
 
+    # Write Header file ending and closing file
     header_file.write("};\n\n")
     header_file.write("{}\n".format(endif))
     header_file.close()
+
+# Define Source code file
 
 
 def generate_signals_source(data):
@@ -100,12 +108,22 @@ def generate_signals_source(data):
         formatted_name = signal["name"].replace(" ", "")
         source_file.write("std::string CAN_signals::get_{}() {{\n\tstd::stringstream sstream;\n\tsstream << \"{{\\\"ID\\\": \" << m_{}GetMsgId\n\t\t\t\t<< \", \\\"length\\\":0 \"\n\t\t\t\t<< \",  \\\"value\\\": \\\"\\\" }}\";\n\treturn sstream.str();\n}}\n\n".format(
             formatted_name, formatted_name))
-        source_file.write("std::string CAN_signals::set_{}(float newValue) {{\n\tstd::stringstream sstream;\n\tsstream << \"{{\\\"ID\\\": \" << m_{}SetMsgId\n\t\t\t\t<< \", \\\"length\\\":10 \"\n\t\t\t\t<< \", \\\"value\\\": \\\"\" << newValue << \"\\\" }}\";\n\treturn sstream.str();\n}}\n\n".format(
-            formatted_name, formatted_name))
+
+        if signal["name"] == "humidity":
+
+            source_file.write("std::string CAN_signals::set_{}(uint8_t newValue) {{\n\tstd::stringstream sstream;\n\tsstream << \"{{\\\"ID\\\": \" << m_{}SetMsgId\n\t\t\t\t<< \", \\\"length\\\":10 \"\n\t\t\t\t<< \", \\\"value\\\": \\\"\" << newValue << \"\\\" }}\";\n\treturn sstream.str();\n}}\n\n".format(
+                formatted_name, formatted_name))
+
+        elif signal["name"] == "temperature":
+
+            source_file.write("std::string CAN_signals::set_{}(float newValue) {{\n\tstd::stringstream sstream;\n\tsstream << \"{{\\\"ID\\\": \" << m_{}SetMsgId\n\t\t\t\t<< \", \\\"length\\\":10 \"\n\t\t\t\t<< \", \\\"value\\\": \\\"\" << newValue << \"\\\" }}\";\n\treturn sstream.str();\n}}\n\n".format(
+                formatted_name, formatted_name))
+
     source_file.close()
 
 
-data = {file_name: [{"name": "temperature"}, {"name": "humidity   "}]}
+# Calling the functions
+data = {file_name: [{"name": "temperature"}, {"name": "humidity"}]}
 file_name = "signals"
 
 generate_signals_header(data)

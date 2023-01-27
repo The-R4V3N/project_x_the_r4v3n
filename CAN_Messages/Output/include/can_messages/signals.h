@@ -17,13 +17,13 @@ class CAN_signals
 		*/
 		std::string set_temperature(float newValue);
 		/*
-		get humidity   
+		get humidity
 		*/
-		std::string get_humidity   ();
+		std::string get_humidity();
 		/*
-		set humidity   
+		set humidity
 		*/
-		std::string set_humidity   (float newValue);
+		std::string set_humidity(uint8_t newValue);
 
 	private: 
 		uint8_t m_startMsgId;
