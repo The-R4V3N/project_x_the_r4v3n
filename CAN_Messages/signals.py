@@ -2,48 +2,52 @@ import json
 import sys
 import os
 
-# Save File Name to a vaiable
+# Creating variables
+output_directory = 'Output/include/can_messages'
+header_file_path = 'Output/include/can_messages'
 file_name = 'signals'
-
-# Save the file  path to a variable
 file_path = 'signals.json'
-
-signal_name = 'name'
-
-# Check if file the path is provided
-if not file_path:
-    print("Error: No file path provided.")
-    sys.exit(1)
-
-# Open the JSON file if file is not present Error handling is happening
-try:
-    with open(file_path, 'r') as f:
-        # Load the JSON data from the file
-        data = json.load(f)
-except FileNotFoundError:
-    print(f"Error: {file_path} not found.")
-    sys.exit(1)
+file = "signals.h"
 
 
-# Define header file
-def generate_signals_header(data):
+def check_file_path(file_path):
+    if not file_path:
+        print("Error: No file path provided.")
+        sys.exit(1)
+
+
+def open_json(file_path):
+    try:
+        with open(file_path, 'r') as f:
+            # Load the JSON data from the file
+            data = json.load(f)
+    except FileNotFoundError:
+        print(f"Error: {file_path} not found.")
+        sys.exit(1)
+    return data
+
+
+def create_output_directory():
     # check if folder exist if not creates it
-    if not os.path.exists('Output/include/can_messages'):
-        os.makedirs('Output/include/can_messages')
+    if not os.path.exists(output_directory):
+        os.makedirs(output_directory)
 
-    # Define file path and open file for writing
-    header_file_path = os.path.join(
-        'Output/include/can_messages', file_name + '.h')
-    header_file = open(header_file_path, "w")
 
+def write_header_file_constants(output_header_file):
     # Define constant values
     ifndef_define = "#ifndef SIGNALS_H"
     define = "#define SIGNALS_H"
-    endif = "#endif /* SIGNALS_H */"
+    # endif = "#endif /* SIGNALS_H */"
+
+    output_header_file.write("{}\n{}\n".format(ifndef_define, define))
+
+
+def write_header_file_includes(header_file):
     include = "\n#include<sstream>\n#include<string>\n"
+    header_file.write(include)
 
-    header_file.write("{}\n{}\n{}\n".format(ifndef_define, define, include))
 
+def write_header_file_class(header_file, data):
     # Define classes used
     can = 'class CAN_signals\n{'
     public = '\n\tpublic: \n'
@@ -76,12 +80,15 @@ def generate_signals_header(data):
         header_file.write("\t\tuint8_t m_{}GetMsgId;\n".format(formatted_name))
         header_file.write("\t\tuint8_t m_{}SetMsgId;\n".format(formatted_name))
 
-    # Write Header file ending and closing file
-    header_file.write("};\n\n")
-    header_file.write("{}\n".format(endif))
-    header_file.close()
 
-# Define Source code file
+def close_header_file(output_header_file):
+    # define constant
+    endif = "#endif /* SIGNALS_H */"
+
+    # close header file
+    output_header_file.write("};\n\n")
+    output_header_file.write("{}\n".format(endif))
+    output_header_file.close()
 
 
 def generate_signals_source(data):
@@ -122,9 +129,32 @@ def generate_signals_source(data):
     source_file.close()
 
 
-# Calling the functions
-data = {file_name: [{"name": "temperature"}, {"name": "humidity"}]}
-file_name = "signals"
+def main():
+    global header_file_path, file_name
+    data = {file_name: [{"name": "temperature"}, {"name": "humidity"}]}
+    header_file_path = os.path.join(
+        header_file_path, file_name + '.h')
+    output_header_file = open(header_file_path, "w")
 
-generate_signals_header(data)
-generate_signals_source(data)
+    # Check file path
+    check_file_path(file_path)
+
+    # Open json file
+    open_json(file_path)
+
+    # Create Output directory
+    create_output_directory()
+
+    # generate_signals_header(data)
+    write_header_file_constants(output_header_file)
+    write_header_file_includes(output_header_file)
+    write_header_file_class(output_header_file, data)
+
+    # Close Header file
+    close_header_file(output_header_file)
+
+    generate_signals_source(data)
+
+
+if __name__ == '__main__':
+    main()
