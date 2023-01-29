@@ -45,7 +45,7 @@ def write_header_file_constants(output_header_file):
 
 
 def write_header_file_includes(header_file):
-    include = "\n#include<sstream>\n#include<string>\n"
+    include = "\n#include<sstream>\n#include<string>\n\n"
     header_file.write(include)
 
 
