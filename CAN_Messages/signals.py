@@ -108,10 +108,6 @@ def write_source_file_includes(source_file):
     source_file.write('#include \"signals.h\"\n\n')
 
 
-def write_source_file_constant(source_file):
-    source_file.write = '#include \"signals.h\"\n\n'
-
-
 def write_constructor(source_file):
     source_file.write(
         "CAN_signals::CAN_signals() {\n\tm_startMsgId = 100;\n\tm_temperatureGetMsgId = m_startMsgId + 2;\n\tm_temperatureSetMsgId = m_startMsgId + 2 + 1;\n\tm_humidityGetMsgId = m_startMsgId + 4;\n\tm_humiditySetMsgId = m_startMsgId + 4 + 1;\n}\n\n")
