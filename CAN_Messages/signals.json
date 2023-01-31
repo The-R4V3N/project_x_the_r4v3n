@@ -1,5 +1,5 @@
 {       
-    "id":"0x100",    
+    "id":"100",    
     "signals":[
             {"name":"temperature", "type":"float", "length":10, "comment":"the ambient temperature"},
             {"name":"humidity", "type":"uint8_t", "length":7, "comment":"the ambient humidity percentage"}
