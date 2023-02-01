@@ -22,6 +22,6 @@ jobs:
       - name: Install prerequisits
         run: sudo apt-get install -y python3 python3-pip
       - name: build the code
-        run: echo "running python code"
+        run: python3 signals.py
       - name: run tests
         run: echo "running tests"
