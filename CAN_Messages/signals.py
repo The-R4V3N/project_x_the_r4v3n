@@ -139,7 +139,16 @@ def main():
     global header_file_path, file_name, source_file, source_file_path
     data = {file_name: [{"name": "temperature"}, {"name": "humidity"}]}
 
-    # Check if header file exists and opens it in write mode
+    # Check file path
+    check_file_path(file_path)
+
+    # Open json file
+    open_json(file_path)
+
+    # Create Output directory
+    create_output_directory()
+
+ # Check if header file exists and opens it in write mode
     header_file_path = os.path.join(header_file_path, file_name + '.h')
     if not os.path.isfile(header_file_path):
         open(header_file_path, "w+").close()
@@ -150,15 +159,6 @@ def main():
     if not os.path.isfile(source_file_path):
         open(source_file_path, 'w').close()
     source_file = open(source_file_path, "w")
-
-    # Check file path
-    check_file_path(file_path)
-
-    # Open json file
-    open_json(file_path)
-
-    # Create Output directory
-    create_output_directory()
 
     # generate_signals_header(data)
     write_header_file_constants(output_header_file)
