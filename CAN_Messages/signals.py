@@ -1,187 +1,166 @@
-#!/usr/bin/python3
 import json
-import sys
-import os
-
-# Creating variables
-output_directory = 'Output/include/can_messages'
-header_file_path = 'Output/include/can_messages'
-source_file_path = 'Output/src'
-file_name = 'signals'
-file_path = 'signals.json'
-file = 'signals.h'
-source_file = 'signals.cpp'
 
 
-def check_file_path(file_path):
-    if not file_path:
-        print("Error: No file path provided.")
-        sys.exit(1)
+def write_output(filename, data):
+
+    with open(filename, "w") as file_fd:
+        file_fd.writelines(data)
 
 
-def open_json(file_path):
-    try:
-        with open(file_path, 'r') as f:
-            # Load the JSON data from the file
-            data = json.load(f)
-    except FileNotFoundError:
-        print(f"Error: {file_path} not found.")
-        sys.exit(1)
-    return data
+def gen_include_guard_class_decl_ctor(json_filename):
+    top = []  # include guard, class declaration and constructor
+    bottom = ""  # ending of include guard
+
+    json_name_upper = json_filename.upper()
+    include_guard_name = f'HEADER_{json_name_upper}_H'
+    include_library_name = f'<sstream>\n#include <string>'
+
+    top.append(f'#ifndef {include_guard_name}')
+    top.append(f'#define {include_guard_name}')
+    top.append('\n')
+    top.append(f'#include {include_library_name}')
+    top.append('\n')
+    top.append(f'class CAN_{json_filename} \n{{')
+    top.append('    public:')
+    top.append(f'        CAN_{json_filename}();')
+
+    bottom = ['};', f'\n#endif //{include_guard_name}\n']
+    return top, bottom
 
 
-def create_output_directory():
-    # check if folder exist if not creates it
-    if not os.path.exists(output_directory):
-        os.makedirs(output_directory)
+def generate_getter_h(signal_name, signal_type, signal_length, signal_comment):
+    buffer = f"\t/*\n\tget {signal_comment}\n\t*/\n"
+    buffer += f'\tstd::string get_{signal_name}();'
+    return buffer
 
 
-def write_header_file_constants(output_header_file):
-    # Define constant values
-    ifndef_define = "#ifndef SIGNALS_H"
-    define = "#define SIGNALS_H"
-    # endif = "#endif /* SIGNALS_H */"
-
-    output_header_file.write("{}\n{}\n".format(ifndef_define, define))
+def generate_setter_h(signal_name, signal_type, signal_length, signal_comment):
+    buffer = f"\t/*\n\tset {signal_comment}\n\t*/\n"
+    buffer += f'\tstd::string set_{signal_name}({signal_type} newValue);'
+    return buffer
 
 
-def write_header_file_includes(header_file):
-    include = "\n#include<sstream>\n#include<string>\n\n"
-    header_file.write(include)
+def generate_get_set_functions(json_dict):
+    content = []
+    for signal in json_dict["signals"]:
+        signal_name = signal["name"]
+        signal_type = signal["type"]
+        signal_length = signal["length"]
+        signal_comment = signal["comment"]
+        set_prototype = generate_setter_h(
+            signal_name, signal_type, signal_length, signal_comment)
+        content.append(set_prototype)
+        set_prototype = generate_getter_h(
+            signal_name, signal_type, signal_length, signal_comment)
+        content.append(set_prototype)
+    return content
 
 
-def write_header_file_class(header_file, data):
-    # Define classes used
-    can = 'class CAN_signals\n{'
-    public = '\n\tpublic: \n'
-    private = '\n\tprivate: \n'
-    signal = '\t\tCAN_signals();\n'
-
-    # Write class definition
-    header_file.write(can + public)
-    header_file.write(signal)
-
-    # Write getter and setter prototypes for each signal
-    for signal in data[file_name]:
-        header_file.write(
-            "\t\t/*\n\t\tget {}\n\t\t*/\n".format(signal["name"]))
-        header_file.write("\t\tstd::string get_{}();\n".format(signal["name"]))
-        header_file.write(
-            "\t\t/*\n\t\tset {}\n\t\t*/\n".format(signal["name"]))
-        if signal["name"] == "humidity":
-            header_file.write(
-                "\t\tstd::string set_{}(uint8_t newValue);\n".format(signal["name"]))
-        elif signal["name"] == "temperature":
-            header_file.write(
-                "\t\tstd::string set_{}(float newValue);\n".format(signal["name"]))
-
-    # Write private class functions
-    header_file.write(private)
-    header_file.write("\t\tuint8_t m_startMsgId;\n")
-    for signal in data[file_name]:
-        formatted_name = signal["name"].replace(" ", "")
-        header_file.write("\t\tuint8_t m_{}GetMsgId;\n".format(formatted_name))
-        header_file.write("\t\tuint8_t m_{}SetMsgId;\n".format(formatted_name))
+def generate_private_fields(json_dict):
+    content = []
+    signal_type = "uint8_t"
+    msgid = "MsgId"
+    field_start = "\t{} m_start{};".format(signal_type,  msgid)
+    content.append(field_start)
+    for signal in json_dict["signals"]:
+        signal_name = "m_" + signal["name"]
+        field_get = "\t{} {}Get{};".format(signal_type, signal_name, msgid)
+        field_set = "\t{} {}Set{};".format(signal_type, signal_name, msgid)
+        content.append(field_get)
+        content.append(field_set)
+    return content
 
 
-def close_header_file(output_header_file):
-    # define constant
-    endif = "#endif /* SIGNALS_H */"
+def generate_header(json_filename, json_dict):
+    output = []
 
-    # close header file
-    output_header_file.write("};\n\n")
-    output_header_file.write("{}\n".format(endif))
-    output_header_file.close()
+    header_top, header_bottom = gen_include_guard_class_decl_ctor(
+        json_filename)
+    output += header_top
 
+    # fill in with more code...
+    output += generate_get_set_functions(json_dict)
+    output.append('\n\tprivate:')
+    output += generate_private_fields(json_dict)
 
-def create_output_dir_src():
-    # check if folder exist if not creates it
-    if not os.path.exists('Output/src'):
-        os.makedirs('Output/src')
-
-
-def path_and_open_file():
-    source_file_path = os.path.join('Output/src', file_name + '.cpp')
-    source_file = open(source_file_path, "w")
+    output += header_bottom  # output = output + header_bottom
+    return output
 
 
-def write_source_file_includes(source_file):
-    source_file.write('#include \"signals.h\"\n\n')
+def generate_setter_src(signal_name, signal_type, signal_length, signal_comment):
+
+    buffer = f"\t/*\n\tset {signal_comment}\n\t\*/\n"
+    buffer += f'\tstd::string set_{signal_name}({signal_type} newValue);'
+
+    return buffer
 
 
-def write_constructor(source_file):
-    source_file.write(
-        "CAN_signals::CAN_signals() {\n\tm_startMsgId = 100;\n\tm_temperatureGetMsgId = m_startMsgId + 2;\n\tm_temperatureSetMsgId = m_startMsgId + 2 + 1;\n\tm_humidityGetMsgId = m_startMsgId + 4;\n\tm_humiditySetMsgId = m_startMsgId + 4 + 1;\n}\n\n")
+def generate_getter_src(signal_name, signal_type, signal_length, signal_comment):
+    buffer = f"\t/*\n\tget {signal_comment}\n\t*/\n"
+    buffer += f'\tstd::string get_{signal_name}({signal_type} newValue);'
+    return buffer
 
 
-def write_getter_setter(data, source_file):
-    for signal in data["signals"]:
-        formatted_name = signal["name"].replace(" ", "")
-        source_file.write("std::string CAN_signals::get_{}() {{\n\tstd::stringstream sstream;\n\tsstream << \"{{\\\"ID\\\": \" << m_{}GetMsgId\n\t\t\t\t<< \", \\\"length\\\":0 \"\n\t\t\t\t<< \",  \\\"value\\\": \\\"\\\" }}\";\n\treturn sstream.str();\n}}\n\n".format(
-            formatted_name, formatted_name))
+def generate_source(json_filename, json_dict):
+    output = []
+    class_name = f'CAN_{json_filename}'
+    output.append(f'#include "{json_filename}.h"\n')
+    output.append(f'{class_name}::{class_name}() {{\n')
+    msgid = "MsgId"
+    start = "start"
+    Id = 100
+    output.append(f'\tm_{start}{msgid} = {Id};')
+    add_value = 2
+    for signal in json_dict["signals"]:
+        signal_name = signal["name"]
+        signal_length = signal["length"]
+        output.append(
+            f'\tm_{signal_name}Get{msgid} = m_{start}{msgid} + {add_value};')
+        output.append(
+            f'\tm_{signal_name}Set{msgid} = m_{start}{msgid} + {add_value} + 1;')
+        add_value += 2
+    output.append(f'}}\n')
 
-        if signal["name"] == "humidity":
+    for signal in json_dict["signals"]:
+        signal_name = signal["name"]
+        signal_type = signal["type"]
+        id = 'ID'
+        std = "std::string"
+        sstream = 'sstream'
+        msgid = 'MsgId'
+        get_function = f'{std} {class_name}::get_{signal_name}()\n{{\n\t{std}stream {sstream};\n\t{sstream} << "{{\\"{id}\\": " << m_{signal_name}Get{msgid}\n\t\t<< ", \\"length\\":0"\n\t\t<< ",  \\"value\\": \"\" ";\n\treturn {sstream}.str();\n}}\n'
+        set_function = f'{std} {class_name}::set_{signal_name}({signal_type} newValue)\n{{\n\t{std}stream {sstream};\n\t{sstream} << "{{\\"{id}\\": " << m_{signal_name}Set{msgid}\n\t\t<< ", \\"length\\":10"\n\t\t<< ", \\"value\\": \\"" << newValue << "\\" }}";\n\treturn {sstream}.str();\n}}\n'
+        output.append(get_function)
+        output.append(set_function)
 
-            source_file.write("std::string CAN_signals::set_{}(uint8_t newValue) {{\n\tstd::stringstream sstream;\n\tsstream << \"{{\\\"ID\\\": \" << m_{}SetMsgId\n\t\t\t\t<< \", \\\"length\\\":10 \"\n\t\t\t\t<< \", \\\"value\\\": \\\"\" << newValue << \"\\\" }}\";\n\treturn sstream.str();\n}}\n".format(
-                formatted_name, formatted_name))
-
-        elif signal["name"] == "temperature":
-
-            source_file.write("std::string CAN_signals::set_{}(float newValue) {{\n\tstd::stringstream sstream;\n\tsstream << \"{{\\\"ID\\\": \" << m_{}SetMsgId\n\t\t\t\t<< \", \\\"length\\\":10 \"\n\t\t\t\t<< \", \\\"value\\\": \\\"\" << newValue << \"\\\" }}\";\n\treturn sstream.str();\n}}\n\n".format(
-                formatted_name, formatted_name))
-
-
-def source_file_close(source_file):
-    source_file.close()
-
-
-def main():
-    global header_file_path, file_name, source_file, source_file_path
-    data = {file_name: [{"name": "temperature"}, {"name": "humidity"}]}
-
-    # Check file path
-    check_file_path(file_path)
-
-    # Open json file
-    open_json(file_path)
-
-    # Create Output directory
-    create_output_directory()
-
- # Check if header file exists and opens it in write mode
-    header_file_path = os.path.join(header_file_path, file_name + '.h')
-    if not os.path.isfile(header_file_path):
-        open(header_file_path, "w+").close()
-    output_header_file = open(header_file_path, "w")
-
-    # Check if source file exists and opens it in write mode
-    source_file_path = os.path.join(source_file_path, file_name + '.cpp')
-    if not os.path.isfile(source_file_path):
-        open(source_file_path, 'w').close()
-    source_file = open(source_file_path, "w")
-
-    # generate_signals_header(data)
-    write_header_file_constants(output_header_file)
-    write_header_file_includes(output_header_file)
-    write_header_file_class(output_header_file, data)
-
-    # Close Header file
-    close_header_file(output_header_file)
-
-    # Create Output directrory for src
-    create_output_dir_src()
-
-    # Create source file path and open the file
-    path_and_open_file()
-
-    # Writing to the source file
-    write_source_file_includes(source_file)
-    write_constructor(source_file)
-    write_getter_setter(data, source_file)
-
-    # Closing source file
-    source_file_close(source_file)
+    return output
 
 
-if __name__ == '__main__':
-    main()
+if __name__ == "__main__":
+    input_filename = "signals.json"
+    json_dict = {}
+    with open(input_filename) as file_fd:
+        json_raw_content = file_fd.read()
+        json_dict = json.loads(json_raw_content)
+    # print(json_dict)
+    json_filename = input_filename.replace(".json", "")
+    # print(json_filename)
+
+    # Writing  content to the header
+    header_content = generate_header(json_filename, json_dict)
+    header_content = generate_private_fields(json_dict)
+    header_file_path = 'Output/include/can_messages'
+    header_file = f"{header_file_path}/{json_filename}.h"
+    header_content = generate_header(json_filename, json_dict)
+    header_content = "\n".join(header_content)
+    write_output(header_file, header_content)
+
+    # Writing content to the source file
+    source_content = generate_source(json_filename, json_dict)
+    source_file_path = 'Output/src'
+    source_file = f"{source_file_path}/{json_filename}.cpp"
+    source_content = generate_source(json_filename, json_dict)
+    source_content = "\n".join(source_content)
+    write_output(source_file, source_content)
+
+# TODO: create a string with filename for a source file
