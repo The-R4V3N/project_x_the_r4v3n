@@ -20,6 +20,7 @@ set(SourcesApp
 
 # tell cmake to search for header files in lib/include folder
 include_directories(lib/include)
+set(FIlE_IO_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/include PARENT_SCOPE)
 
 # we are telling to cmake to build a library from source code
 add_library(File_Io ${SourcesLib})

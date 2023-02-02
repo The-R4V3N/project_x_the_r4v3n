@@ -10,10 +10,15 @@
  *
  */
 
-#include "main.h"
+#include "File_Io.h"
+#include <can_messages/signals.h>
 #include <iostream>
 
-int main(void)
+int main(int argc, char *argv[])
 {
+    CAN_signals Signals;
+
+    File_Io myFile("test");
+    std::cout << "it is kind of opened" << std::endl;
     return 0;
 }
