@@ -162,5 +162,3 @@ if __name__ == "__main__":
     source_content = generate_source(json_filename, json_dict)
     source_content = "\n".join(source_content)
     write_output(source_file, source_content)
-
-# TODO: create a string with filename for a source file
