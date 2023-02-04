@@ -7,10 +7,9 @@ add_custom_target(
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-set(CAN_MessagesINCLUDE_DIR
-            "${CMAKE_CURRENT_SOURCE_DIR}/Output/include/signals.h"
+set(CAN_Messages_INCLUDE_DIR
+            "${CMAKE_CURRENT_SOURCE_DIR}/Output/include/can_messages/"
             PARENT_SCOPE)
-            
-set(CAN_MessagesSOURCES
-            ${CMAKE_CURRENT_SOURCE_DIR}/Output/src/signals.cpp
+set(CAN_Messages_SOURCES
+            "${CMAKE_CURRENT_SOURCE_DIR}/Output/src/signals.cpp"
             PARENT_SCOPE)

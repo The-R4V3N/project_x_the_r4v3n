@@ -11,14 +11,14 @@
  */
 
 #include "File_Io.h"
-#include <can_messages/signals.h>
+#include "signals.h"
 #include <iostream>
 
 int main(int argc, char *argv[])
 {
     CAN_signals Signals;
 
-    File_Io myFile("test");
+    FileOps myFile;
     std::cout << "it is kind of opened" << std::endl;
     return 0;
 }
