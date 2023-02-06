@@ -23,13 +23,13 @@ include_directories(lib/include)
 set(FIlE_IO_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/include PARENT_SCOPE)
 
 # we are telling to cmake to build a library from source code
-add_library(File_Io ${SourcesLib})
+add_library(FIlE_IO ${SourcesLib})
 
 # Adding the executable
 add_executable(${app} ${SourcesApp})
 
 # Link my library to an executable
-target_link_libraries(${app} File_Io)
+target_link_libraries(${app} FIlE_IO)
 
 #GoogleTest part
 
@@ -51,6 +51,6 @@ FetchContent_MakeAvailable(googletest)
 
 # Built Unity Test
 add_executable(lib_ut_tests lib/ut/test.cpp   )
-target_link_libraries(lib_ut_tests gtest gtest_main File_Io)
+target_link_libraries(lib_ut_tests gtest gtest_main FIlE_IO)
 
 #lib/ut/ut_lib_test.cpp // this was is target_link_libraries call
