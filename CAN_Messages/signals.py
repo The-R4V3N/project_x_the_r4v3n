@@ -105,7 +105,7 @@ def generate_source(json_filename, json_dict):
     output = []
     class_name = f'CAN_{json_filename}'
     output.append(f'#include "{json_filename}.h"\n')
-    output.append(f'{class_name}::{class_name}() {{\n')
+    output.append(f'{class_name}::{class_name}() \n{{')
     msgid = "MsgId"
     start = "start"
     Id = 100
