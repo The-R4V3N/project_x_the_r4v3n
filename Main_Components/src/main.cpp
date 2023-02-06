@@ -1,4 +1,3 @@
-
 /**
  * @file main.cpp
  * @author Oliver Joisten (https://oliver-joisten.se/)

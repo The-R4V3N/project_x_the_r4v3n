@@ -22,7 +22,7 @@ def gen_include_guard_class_decl_ctor(json_filename):
     top.append('\n')
     top.append(f'class CAN_{json_filename} \n{{')
     top.append('    public:')
-    top.append(f'        CAN_{json_filename}();')
+    top.append(f'        CAN_{json_filename}(){{}}')
 
     bottom = ['};', f'\n#endif //{include_guard_name}\n']
     return top, bottom
