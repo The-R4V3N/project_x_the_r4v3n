@@ -139,7 +139,7 @@ def generate_source(json_filename, json_dict):
 if __name__ == "__main__":
     input_filename = "signals.json"
     json_dict = {}
-    with open('signals.json') as file_fd:
+    with open(input_filename) as file_fd:
         json_raw_content = file_fd.read()
         json_dict = json.loads(json_raw_content)
     # print(json_dict)
