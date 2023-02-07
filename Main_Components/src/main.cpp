@@ -1,112 +1,166 @@
-/**
- * @file main.cpp
- * @author Oliver Joisten (https://oliver-joisten.se/)
- * @brief  The main Components of The Assignment
- * @version 0.1
- * @date 2023-01-16
- *
- * @copyright Copyright (c) 2023
- *
- */
-
 #include "../../File_IO/lib/include/File_IO.h"
 #include "../../CAN_Messages/Output/include/can_messages/signals.h"
-#include <fstream>
 #include <iostream>
-#include <map>
-#include <string>
-#include <vector>
+#include <iterator>
 
-std::map<std::string, int> commands;
-
-struct Command
+std::string parse_get_func_and_call(std::string line)
 {
-    int ID;
-    int length;
-    int value;
-};
+    const std::string get_keyword("get");
+    std::string result;
+    size_t pos_of_get = line.find(get_keyword);
+    // position of get + the length of the "get" + extra whitespace
+    size_t pos_start_signal_name = pos_of_get + get_keyword.size() + 1;
+    size_t pos_of_separator = line.find(" ", pos_start_signal_name);
+    std::string get_signal_name = line.substr(pos_start_signal_name, pos_of_separator - pos_start_signal_name);
 
-void writeJsonArray(std::ofstream &outputFile, const std::vector<Command> &commandsData)
-{
-    outputFile << "{" << std::endl;
-    outputFile << "\t[" << std::endl;
-    for (const Command &command : commandsData)
+    std::string value = line.substr(pos_of_separator + 1);
+    std::cout << "| signal_name  = |" << get_signal_name
+              << "| value |"
+              << value << "|" << std::endl;
+
+    CAN_signals signal_obj;
+
+    if (get_signal_name.compare("temperature") == 0)
     {
-
-        outputFile << "\t\t{\"ID\": 0x" << std::hex << command.ID << ", "
-                   << "\"length\": " << command.length << ", "
-                   << "\"value\": " << command.value << "}"
-                   << ",\n";
+        signal_obj.get_temperature();
     }
-    outputFile << "\t]" << std::endl;
-    outputFile << "\n}\n";
+    else if (get_signal_name.compare("humidity") == 0)
+    {
+        signal_obj.get_humidity();
+    }
+    // else
+    // if (signal_name.compare("stop_signal_light") == 0)
+    // {
+    //     signal_obj.get_stop_signal_light();
+    // }
+    // else
+    // if (signal_name.compare("temperature") == 0)
+
+    return result;
+}
+
+// set volume 100
+std::string parse_set_func_and_call(std::string line)
+{
+    const std::string set_keyword("set");
+    std::string result;
+    size_t pos_of_set = line.find(set_keyword);
+    // positioin of set + the lenght of the "Set" + extra whitespace
+    size_t pos_start_signal_name = pos_of_set + set_keyword.size() + 1;
+    size_t pos_of_separator = line.find(" ", pos_start_signal_name);
+    std::string set_signal_name = line.substr(pos_start_signal_name, pos_of_separator - pos_start_signal_name);
+
+    std::string value = line.substr(pos_of_separator + 1);
+
+    std::cout << "| signal_name  = |" << set_signal_name
+              << "| value |"
+              << value << "|" << std::endl;
+
+    if (set_signal_name.compare("temperature") == 0)
+    {
+        float f_value = std::stof(value);
+        CAN_signals signal_obj;
+        return signal_obj.set_temperature(f_value);
+    }
+    else if (set_signal_name.compare("humidity") == 0)
+    {
+        uint8_t u_value = std::stoul(value) & 0xFF;
+        CAN_signals signal_obj;
+        return signal_obj.set_humidity(u_value);
+    }
+    // else
+    // if (signal_name.compare("stop_signal_light") == 0)
+    // {
+    //     bool b_value = false;
+    //     if (value.compare("enabled") == 0)
+
+    //     {
+    //         b_value = true;
+
+    //     }
+    //     CAN_signals signal_obj;
+    //     return signal_obj.set_stop_signal_light(b_value);
+    //     }
+    // else
+    // if (signal_name.compare("temperature") == 0)
+    return result;
+}
+
+/* convert list of comands into json file generated class from Can_Messages*/
+std::vector<std::string> convert(std::vector<std::string> raw_input)
+{
+
+    std::vector<std::string> output;
+
+    // for c++ 11 and later standards
+
+    for (std::string &line : raw_input)
+    {
+        size_t pos_of_get = line.find("get");
+        if (pos_of_get != std::string::npos && pos_of_get < 2)
+        {
+            std::string out = parse_get_func_and_call(line);
+            output.push_back(out);
+            // call a function to parse get lines
+        }
+
+        size_t pos_of_set = line.find("set");
+        if (pos_of_set != std::string::npos && pos_of_set < 2)
+        {
+
+            std::string out = parse_set_func_and_call(line);
+            output.push_back(out);
+
+            // call a function to parse set lines
+        }
+    }
+
+    return output;
 }
 
 int main(int argc, char *argv[])
 {
-    if (argc != 2)
+    if (argc < 2)
     {
-        std::cerr << "Error: Missing input file name." << std::endl;
+        std::cerr << "sorry you should call"
+                  << std::endl
+                  << argv[0] << " input_file output_file" << std::endl;
         return 1;
     }
 
-    std::string inputFileName(argv[1]);
-    std::string jsonFileName = inputFileName.substr(0, inputFileName.find_last_of(".")) + ".json";
+    std::string input_filename(argv[1]);
+    std::string output_filename(argv[2]);
 
-    std::ifstream inputFile(inputFileName);
-    if (!inputFile.is_open())
+    // it depends on youre implementation do not blindly copy the code adapt it
+
+    FileOps input;
+    // in my case i might need to provide a filname as an argument
+    std::vector<std::string> input_content = input.read(input_filename);
+
+    // define a container for result
+    std::vector<std::string> output_content = convert(input_content);
+    // Decoration part
+    std::vector<std::string> final_output = {"{", "\t["};
+
+    auto lineIt = output_content.begin();
+    for (;
+         std::next(lineIt) != output_content.end();
+         ++lineIt)
     {
-        std::cerr << "Error: Unable to open the input file." << std::endl;
-        return 1;
+        final_output.push_back((*lineIt) + ";");
     }
+    final_output.push_back(*lineIt);
 
-    int id = 0;
-    std::string line;
-    while (std::getline(inputFile, line))
-    {
-        if (commands.find(line) == commands.end())
-        {
-            commands[line] = id++;
-        }
-    }
-    inputFile.close();
+    // closing json Document
+    output_content.emplace_back("\t]");
+    output_content.emplace_back("}");
 
-    inputFile.open(inputFileName);
-    if (!inputFile.is_open())
-    {
-        std::cerr << "Error: Unable to open the input file." << std::endl;
-        return 1;
-    }
-
-    std::vector<Command> commandsData;
-    while (std::getline(inputFile, line))
-    {
-        Command command;
-        command.ID = commands[line];
-        if (line == "set volume")
-        {
-            command.length = 8;
-            command.value = 100;
-        }
-        else
-        {
-            command.length = 0;
-            command.value = 0;
-        }
-        commandsData.push_back(command);
-    }
-    inputFile.close();
-
-    std::ofstream outputFile(jsonFileName);
-    if (!outputFile.is_open())
-    {
-        std::cerr << "Error: Unable to open the output file." << std::endl;
-        return 1;
-    }
-
-    writeJsonArray(outputFile, commandsData);
-
-    outputFile.close();
+    // it depends on your implementation
+    FileOps output;
+    output.write(output_filename, final_output);
 
     return 0;
 }
+/*
+./ Main_Components / main_component../ Main_Components / output / signals.txt./ output.txt
+*/
