@@ -1,4 +1,0 @@
-set volume 100
-get humidity
-get volumes
-set stop_signal_light enabled
