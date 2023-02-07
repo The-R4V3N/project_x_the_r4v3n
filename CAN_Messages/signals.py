@@ -1,10 +1,18 @@
 import json
+import os
 
 
 def write_output(filename, data):
 
     with open(filename, "w") as file_fd:
         file_fd.writelines(data)
+
+
+def create_output_header_directory():
+    # check if folder exist if not creates it
+    output_directory = 'Output/include/can_messages'
+    if not os.path.exists(output_directory):
+        os.makedirs(output_directory)
 
 
 def gen_include_guard_class_decl_ctor(json_filename):
@@ -101,6 +109,12 @@ def generate_getter_src(signal_name, signal_type, signal_length, signal_comment)
     return buffer
 
 
+def create_output_dir_src():
+    # check if folder exist if not creates it
+    if not os.path.exists('Output/src'):
+        os.makedirs('Output/src')
+
+
 def generate_source(json_filename, json_dict):
     output = []
     class_name = f'CAN_{json_filename}'
@@ -149,6 +163,7 @@ if __name__ == "__main__":
     # Writing  content to the header
     header_content = generate_header(json_filename, json_dict)
     header_content = generate_private_fields(json_dict)
+    create_output_header_directory()
     header_file_path = 'Output/include/can_messages'
     header_file = f"{header_file_path}/{json_filename}.h"
     header_content = generate_header(json_filename, json_dict)
@@ -157,6 +172,7 @@ if __name__ == "__main__":
 
     # Writing content to the source file
     source_content = generate_source(json_filename, json_dict)
+    create_output_dir_src()
     source_file_path = 'Output/src'
     source_file = f"{source_file_path}/{json_filename}.cpp"
     source_content = generate_source(json_filename, json_dict)
