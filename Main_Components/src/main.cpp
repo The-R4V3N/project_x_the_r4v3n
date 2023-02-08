@@ -22,15 +22,15 @@ std::string parse_get_func_and_call(std::string line)
               << "| value |"
               << value << "|" << std::endl;
 
-    CAN_signals signal_obj;
-
     if (get_signal_name.compare("temperature") == 0)
     {
-        signal_obj.get_temperature();
+        CAN_signals signal_obj;
+        return signal_obj.get_temperature();
     }
     else if (get_signal_name.compare("humidity") == 0)
     {
-        signal_obj.get_humidity();
+        CAN_signals signal_obj;
+        return signal_obj.get_humidity();
     }
     // else
     // if (signal_name.compare("stop_signal_light") == 0)
