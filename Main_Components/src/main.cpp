@@ -20,7 +20,7 @@ std::string parse_get_func_and_call(std::string line)
     size_t pos_start_signal_name = pos_of_get + get_keyword.size() + 1;
     size_t pos_of_separator = line.find(" ", pos_start_signal_name);
 
-    // Check if the signal name was extracted correctly
+    //  Check if the signal name was extracted correctly
     if (pos_of_separator == std::string::npos)
     {
         std::cerr << "Error: Could not find separator in line: " << line << std::endl;
@@ -33,7 +33,6 @@ std::string parse_get_func_and_call(std::string line)
                                     // from total length (position of first element + last element)
                                     line.length() - ((pos_of_separator + 1) + 1));
 
-    std::cout << "line: " << line << std::endl;
     std::cout << "signal_name  = |" << get_signal_name
               << "| value |"
               << value << "|" << std::endl;
