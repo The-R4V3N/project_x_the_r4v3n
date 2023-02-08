@@ -13,8 +13,12 @@ std::string parse_get_func_and_call(std::string line)
     size_t pos_of_separator = line.find(" ", pos_start_signal_name);
     std::string get_signal_name = line.substr(pos_start_signal_name, pos_of_separator - pos_start_signal_name);
 
-    std::string value = line.substr(pos_of_separator + 1);
-    std::cout << "| signal_name  = |" << get_signal_name
+    // ignore space before
+    std::string value = line.substr(pos_of_separator + 1,
+                                    // from total length (position of first element + last element)
+                                    line.length() - ((pos_of_separator + 1) + 1));
+
+    std::cout << "signal_name  = |" << get_signal_name
               << "| value |"
               << value << "|" << std::endl;
 
@@ -39,7 +43,6 @@ std::string parse_get_func_and_call(std::string line)
     return result;
 }
 
-// set volume 100
 std::string parse_set_func_and_call(std::string line)
 {
     const std::string set_keyword("set");
@@ -49,10 +52,12 @@ std::string parse_set_func_and_call(std::string line)
     size_t pos_start_signal_name = pos_of_set + set_keyword.size() + 1;
     size_t pos_of_separator = line.find(" ", pos_start_signal_name);
     std::string set_signal_name = line.substr(pos_start_signal_name, pos_of_separator - pos_start_signal_name);
+    // ignore space before
+    std::string value = line.substr(pos_of_separator + 1,
+                                    // from total length (position of first element + last element)
+                                    line.length() - ((pos_of_separator + 1) + 1));
 
-    std::string value = line.substr(pos_of_separator + 1);
-
-    std::cout << "| signal_name  = |" << set_signal_name
+    std::cout << "signal_name  = |" << set_signal_name
               << "| value |"
               << value << "|" << std::endl;
 
@@ -110,7 +115,6 @@ std::vector<std::string> convert(std::vector<std::string> raw_input)
 
             std::string out = parse_set_func_and_call(line);
             output.push_back(out);
-
             // call a function to parse set lines
         }
     }
@@ -131,14 +135,12 @@ int main(int argc, char *argv[])
     std::string input_filename(argv[1]);
     std::string output_filename(argv[2]);
 
-    // it depends on youre implementation do not blindly copy the code adapt it
-
     FileOps input;
-    // in my case i might need to provide a filname as an argument
     std::vector<std::string> input_content = input.read(input_filename);
 
     // define a container for result
     std::vector<std::string> output_content = convert(input_content);
+
     // Decoration part
     std::vector<std::string> final_output = {"{", "\t["};
 
@@ -152,10 +154,9 @@ int main(int argc, char *argv[])
     final_output.push_back(*lineIt);
 
     // closing json Document
-    output_content.emplace_back("\t]");
-    output_content.emplace_back("}");
+    final_output.emplace_back("\t]");
+    final_output.emplace_back("}");
 
-    // it depends on your implementation
     FileOps output;
     output.write(output_filename, final_output);
 
