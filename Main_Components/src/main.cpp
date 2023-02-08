@@ -8,16 +8,32 @@ std::string parse_get_func_and_call(std::string line)
     const std::string get_keyword("get");
     std::string result;
     size_t pos_of_get = line.find(get_keyword);
+
+    // Check if the "get" keyword is found
+    if (pos_of_get == std::string::npos)
+    {
+        std::cerr << "Error: Could not find get keyword in line: " << line << std::endl;
+        return result;
+    }
+
     // position of get + the length of the "get" + extra whitespace
     size_t pos_start_signal_name = pos_of_get + get_keyword.size() + 1;
     size_t pos_of_separator = line.find(" ", pos_start_signal_name);
-    std::string get_signal_name = line.substr(pos_start_signal_name, pos_of_separator - pos_start_signal_name);
 
+    // Check if the signal name was extracted correctly
+    if (pos_of_separator == std::string::npos)
+    {
+        std::cerr << "Error: Could not find separator in line: " << line << std::endl;
+        return result;
+    }
+
+    std::string get_signal_name = line.substr(pos_start_signal_name, pos_of_separator - pos_start_signal_name);
     // ignore space before
     std::string value = line.substr(pos_of_separator + 1,
                                     // from total length (position of first element + last element)
                                     line.length() - ((pos_of_separator + 1) + 1));
 
+    std::cout << "line: " << line << std::endl;
     std::cout << "signal_name  = |" << get_signal_name
               << "| value |"
               << value << "|" << std::endl;
@@ -32,13 +48,10 @@ std::string parse_get_func_and_call(std::string line)
         CAN_signals signal_obj;
         return signal_obj.get_humidity();
     }
-    // else
-    // if (signal_name.compare("stop_signal_light") == 0)
-    // {
-    //     signal_obj.get_stop_signal_light();
-    // }
-    // else
-    // if (signal_name.compare("temperature") == 0)
+    else
+    {
+        std::cerr << "Error: Could not extract expected signal name from line: " << line << std::endl;
+    }
 
     return result;
 }
@@ -48,9 +61,25 @@ std::string parse_set_func_and_call(std::string line)
     const std::string set_keyword("set");
     std::string result;
     size_t pos_of_set = line.find(set_keyword);
-    // positioin of set + the lenght of the "Set" + extra whitespace
+
+    // Check if the "set" keyword is found
+    if (pos_of_set == std::string::npos)
+    {
+        std::cerr << "Error: \"set\" keyword not found in input string." << std::endl;
+        return result;
+    }
+
+    // position of set + the lenght of the "Set" + extra whitespace
     size_t pos_start_signal_name = pos_of_set + set_keyword.size() + 1;
     size_t pos_of_separator = line.find(" ", pos_start_signal_name);
+
+    // Check if the signal name was extracted correctly
+    if (pos_of_separator == std::string::npos)
+    {
+        std::cerr << "Error: Separator for signal name not found in input string." << std::endl;
+        return result;
+    }
+
     std::string set_signal_name = line.substr(pos_start_signal_name, pos_of_separator - pos_start_signal_name);
     // ignore space before
     std::string value = line.substr(pos_of_separator + 1,
@@ -63,31 +92,36 @@ std::string parse_set_func_and_call(std::string line)
 
     if (set_signal_name.compare("temperature") == 0)
     {
-        float f_value = std::stof(value);
+        float f_value;
+        try
+        {
+            f_value = std::stof(value);
+        }
+        catch (const std::invalid_argument &e)
+        {
+            std::cerr << "Error: Could not convert value to float." << std::endl;
+            return result;
+        }
+
         CAN_signals signal_obj;
         return signal_obj.set_temperature(f_value);
     }
     else if (set_signal_name.compare("humidity") == 0)
     {
-        uint8_t u_value = std::stoul(value) & 0xFF;
+        uint8_t u_value;
+        try
+        {
+            u_value = std::stoul(value) & 0xFF;
+        }
+        catch (const std::invalid_argument &e)
+        {
+            std::cerr << "Error: Could not convert value to unsigned integer." << std::endl;
+            return result;
+        }
+
         CAN_signals signal_obj;
         return signal_obj.set_humidity(u_value);
     }
-    // else
-    // if (signal_name.compare("stop_signal_light") == 0)
-    // {
-    //     bool b_value = false;
-    //     if (value.compare("enabled") == 0)
-
-    //     {
-    //         b_value = true;
-
-    //     }
-    //     CAN_signals signal_obj;
-    //     return signal_obj.set_stop_signal_light(b_value);
-    //     }
-    // else
-    // if (signal_name.compare("temperature") == 0)
     return result;
 }
 
@@ -163,5 +197,5 @@ int main(int argc, char *argv[])
     return 0;
 }
 /*
-./ Main_Components / main_component../ Main_Components / output / signals.txt./ output.txt
+./Main_Components/main_component ../Main_Components/output/signals.txt ./output.json
 */
