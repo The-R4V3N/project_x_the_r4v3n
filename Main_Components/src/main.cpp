@@ -3,6 +3,8 @@
 #include <iostream>
 #include <iterator>
 
+// #define PRINT_DEBUG_LINE_INFO  std::cout << __FUNCTION__ << ":" << __LINE__ << std::endl;
+
 std::string parse_get_func_and_call(std::string line)
 {
     const std::string get_keyword("get");
@@ -131,7 +133,6 @@ std::vector<std::string> convert(std::vector<std::string> raw_input)
     std::vector<std::string> output;
 
     // for c++ 11 and later standards
-
     for (std::string &line : raw_input)
     {
         size_t pos_of_get = line.find("get");
@@ -177,14 +178,18 @@ int main(int argc, char *argv[])
     // Decoration part
     std::vector<std::string> final_output = {"{", "\t["};
 
-    auto lineIt = output_content.begin();
-    for (;
-         std::next(lineIt) != output_content.end();
-         ++lineIt)
+    if (output_content.empty() != true)
     {
-        final_output.push_back((*lineIt) + ";");
+        auto lineIt = output_content.begin();
+        for (;
+             std::next(lineIt) != output_content.end();
+             ++lineIt)
+        {
+            final_output.push_back((*lineIt) + ";");
+        }
+
+        final_output.push_back(*lineIt);
     }
-    final_output.push_back(*lineIt);
 
     // closing json Document
     final_output.emplace_back("\t]");
