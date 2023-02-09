@@ -17,4 +17,4 @@ Have added  github workfow
 ### For debugging:
 5. We recommend to use lldb ( due to nice User Interface).
     1. run lldb together with executable file ( lldb .Main_Components/main_component)
-    2. inside lldb we can call a command "gui" to have User Interface.73 run a program with arguments ( run <arg1> <arg2>)  run ../Main_Component/ouput/tsignals.txt. output.txt
+    2. inside lldb we can call a command "gui" to have User Interface. Run a program with arguments ( run <arg1> <arg2>)  run ../Main_Component/ouput/tsignals.txt. output.txt
