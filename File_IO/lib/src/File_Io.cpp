@@ -38,4 +38,8 @@ void FileOps::write(std::string fileName, std::vector<std::string> data)
         }
         outFile.close();
     }
+    else
+    {
+        throw std::runtime_error("Error opening file " + fileName + " for writing");
+    }
 }

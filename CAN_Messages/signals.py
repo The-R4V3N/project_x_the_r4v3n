@@ -2,24 +2,24 @@ import json
 import os
 
 
-def write_output(filename, data):
+def write_output(output_header_filename, data):
 
-    with open(filename, "w") as file_fd:
+    with open(output_header_filename, "w") as file_fd:
         file_fd.writelines(data)
 
 
 def create_output_header_directory():
     # check if folder exist if not creates it
-    output_directory = 'Output/include/can_messages'
+    output_directory = os.path.join('Output', 'include', 'can_messages')
     if not os.path.exists(output_directory):
         os.makedirs(output_directory)
 
 
-def gen_include_guard_class_decl_ctor(json_filename):
+def gen_include_guard_class_decl_ctor(input_json_filename):
     top = []  # include guard, class declaration and constructor
     bottom = ""  # ending of include guard
 
-    json_name_upper = json_filename.upper()
+    json_name_upper = input_json_filename.upper()
     include_guard_name = f'HEADER_{json_name_upper}_H'
     include_library_name = f'<sstream>\n#include <string>'
 
@@ -28,9 +28,9 @@ def gen_include_guard_class_decl_ctor(json_filename):
     top.append('\n')
     top.append(f'#include {include_library_name}')
     top.append('\n')
-    top.append(f'class CAN_{json_filename} \n{{')
-    top.append('    public:')
-    top.append(f'        CAN_{json_filename}();')
+    top.append(f'class CAN_{input_json_filename} \n{{')
+    top.append('\tpublic:')
+    top.append(f'\t\tCAN_{input_json_filename}();')
 
     bottom = ['};', f'\n#endif //{include_guard_name}\n']
     return top, bottom
@@ -79,11 +79,11 @@ def generate_private_fields(json_dict):
     return content
 
 
-def generate_header(json_filename, json_dict):
+def generate_header(input_json_filename, json_dict):
     output = []
 
     header_top, header_bottom = gen_include_guard_class_decl_ctor(
-        json_filename)
+        input_json_filename)
     output += header_top
 
     # fill in with more code...
@@ -103,22 +103,17 @@ def generate_setter_src(signal_name, signal_type, signal_length, signal_comment)
     return buffer
 
 
-def generate_getter_src(signal_name, signal_type, signal_length, signal_comment):
-    buffer = f"\t/*\n\tget {signal_comment}\n\t*/\n"
-    buffer += f'\tstd::string get_{signal_name}({signal_type} newValue);'
-    return buffer
-
-
 def create_output_dir_src():
     # check if folder exist if not creates it
-    if not os.path.exists('Output/src'):
-        os.makedirs('Output/src')
+    output_directory_src = os.path.join('Output', 'src')
+    if not os.path.exists(output_directory_src):
+        os.makedirs(output_directory_src)
 
 
-def generate_source(json_filename, json_dict):
+def generate_source(input_json_filename, json_dict):
     output = []
-    class_name = f'CAN_{json_filename}'
-    output.append(f'#include "{json_filename}.h"\n')
+    class_name = f'CAN_{input_json_filename}'
+    output.append(f'#include "{input_json_filename}.h"\n')
     output.append(f'{class_name}::{class_name}() \n{{')
     msgid = "MsgId"
     start = "start"
@@ -127,7 +122,6 @@ def generate_source(json_filename, json_dict):
     add_value = 2
     for signal in json_dict["signals"]:
         signal_name = signal["name"]
-        signal_length = signal["length"]
         output.append(
             f'\tm_{signal_name}Get{msgid} = m_{start}{msgid} + {add_value};')
         output.append(
@@ -157,24 +151,24 @@ if __name__ == "__main__":
         json_raw_content = file_fd.read()
         json_dict = json.loads(json_raw_content)
     # print(json_dict)
-    json_filename = input_filename.replace(".json", "")
-    # print(json_filename)
+    input_json_filename = input_filename.replace(".json", "")
+    # print(input_json_filename)
 
     # Writing  content to the header
-    header_content = generate_header(json_filename, json_dict)
+    header_content = generate_header(input_json_filename, json_dict)
     header_content = generate_private_fields(json_dict)
     create_output_header_directory()
     header_file_path = 'Output/include/can_messages'
-    header_file = f"{header_file_path}/{json_filename}.h"
-    header_content = generate_header(json_filename, json_dict)
+    header_file = f"{header_file_path}/{input_json_filename}.h"
+    header_content = generate_header(input_json_filename, json_dict)
     header_content = "\n".join(header_content)
     write_output(header_file, header_content)
 
     # Writing content to the source file
-    source_content = generate_source(json_filename, json_dict)
+    source_content = generate_source(input_json_filename, json_dict)
     create_output_dir_src()
     source_file_path = 'Output/src'
-    source_file = f"{source_file_path}/{json_filename}.cpp"
-    source_content = generate_source(json_filename, json_dict)
+    source_file = f"{source_file_path}/{input_json_filename}.cpp"
+    source_content = generate_source(input_json_filename, json_dict)
     source_content = "\n".join(source_content)
     write_output(source_file, source_content)

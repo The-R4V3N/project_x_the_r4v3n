@@ -37,20 +37,11 @@ TEST(FileOpsTest, TestWriteFunction)
     // Prepare the data to be written
     std::vector<std::string> data = {"Hello", "I am a", "Software", "Developer"};
 
-    // Call the write function
-    try
-    {
-        fileops.write("test.txt", data);
-    }
-    catch (const std::runtime_error &e)
-    {
-        std::cout << e.what() << std::endl;
-        return;
-    }
+    // Change the permission of the file to make it read-only
+    chmod("test.txt", S_IREAD);
 
-    // Verify that the file was written correctly
-    std::vector<std::string> written_data = fileops.read("test.txt");
-    EXPECT_EQ(data, written_data);
+    // Call the write function and check the exception
+    EXPECT_THROW(fileops.write("test.txt", data), std::runtime_error);
 
     // Clean up the test file
     std::remove("test.txt");
