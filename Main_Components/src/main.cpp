@@ -42,12 +42,12 @@ std::string parse_get_func_and_call(std::string line)
     if (get_signal_name.compare("temperature") == 0)
     {
         CAN_signals signal_obj;
-        return signal_obj.get_temperature();
+        return "\t\t" + signal_obj.get_temperature();
     }
     else if (get_signal_name.compare("humidity") == 0)
     {
         CAN_signals signal_obj;
-        return signal_obj.get_humidity();
+        return "\t\t" + signal_obj.get_humidity();
     }
     else
     {
@@ -105,7 +105,7 @@ std::string parse_set_func_and_call(std::string line)
         }
 
         CAN_signals signal_obj;
-        return signal_obj.set_temperature(f_value);
+        return "\t\t" + signal_obj.set_temperature(f_value);
     }
     else if (set_signal_name.compare("humidity") == 0)
     {
@@ -121,7 +121,7 @@ std::string parse_set_func_and_call(std::string line)
         }
 
         CAN_signals signal_obj;
-        return signal_obj.set_humidity(u_value);
+        return "\t\t" + signal_obj.set_humidity(u_value);
     }
     return result;
 }
@@ -185,7 +185,7 @@ int main(int argc, char *argv[])
              std::next(lineIt) != output_content.end();
              ++lineIt)
         {
-            final_output.push_back((*lineIt) + ";");
+            final_output.push_back((*lineIt) + ",");
         }
 
         final_output.push_back(*lineIt);
