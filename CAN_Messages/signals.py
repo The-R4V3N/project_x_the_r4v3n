@@ -147,9 +147,9 @@ def generate_source(input_json_filename, json_dict):
 
 if __name__ == "__main__":
     input_filename = "signals.json"
+    json_dict = {}
 
     if os.path.exists(input_filename):
-        json_dict = {}
         with open(input_filename) as file_fd:
             json_raw_content = file_fd.read()
         json_dict = json.loads(json_raw_content)
