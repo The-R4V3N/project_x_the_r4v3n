@@ -156,24 +156,25 @@ if __name__ == "__main__":
         # print(json_dict)
         input_json_filename = input_filename.replace(".json", "")
         # print(input_json_filename)
+
     else:
         print(f"File {input_filename} does not exist.")
 
     # Writing  content to the header
-    header_content = generate_header(input_filename, json_dict)
+    header_content = generate_header(input_json_filename, json_dict)
     header_content = generate_private_fields(json_dict)
     create_output_header_directory()
     header_file_path = 'Output/include/can_messages'
-    header_file = f"{header_file_path}/{input_filename}.h"
-    header_content = generate_header(input_filename, json_dict)
+    header_file = f"{header_file_path}/{input_json_filename}.h"
+    header_content = generate_header(input_json_filename, json_dict)
     header_content = "\n".join(header_content)
     write_output(header_file, header_content)
 
     # Writing content to the source file
-    source_content = generate_source(input_filename, json_dict)
+    source_content = generate_source(input_json_filename, json_dict)
     create_output_dir_src()
     source_file_path = 'Output/src'
-    source_file = f"{source_file_path}/{input_filename}.cpp"
-    source_content = generate_source(input_filename, json_dict)
+    source_file = f"{source_file_path}/{input_json_filename}.cpp"
+    source_content = generate_source(input_json_filename, json_dict)
     source_content = "\n".join(source_content)
     write_output(source_file, source_content)
