@@ -146,7 +146,6 @@ std::vector<std::string> convert(std::vector<std::string> raw_input)
         size_t pos_of_set = line.find("set");
         if (pos_of_set != std::string::npos && pos_of_set < 2)
         {
-
             std::string out = parse_set_func_and_call(line);
             output.push_back(out);
             // call a function to parse set lines
