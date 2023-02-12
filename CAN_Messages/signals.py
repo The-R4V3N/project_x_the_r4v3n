@@ -147,13 +147,17 @@ def generate_source(input_json_filename, json_dict):
 
 if __name__ == "__main__":
     input_filename = "signals.json"
-    json_dict = {}
-    with open(input_filename) as file_fd:
-        json_raw_content = file_fd.read()
+
+    if os.path.exists(input_filename):
+        json_dict = {}
+        with open(input_filename) as file_fd:
+            json_raw_content = file_fd.read()
         json_dict = json.loads(json_raw_content)
-    # print(json_dict)
-    input_json_filename = input_filename.replace(".json", "")
-    # print(input_json_filename)
+        # print(json_dict)
+        input_json_filename = input_filename.replace(".json", "")
+        # print(input_json_filename)
+    else:
+        print(f"File {input_filename} does not exist.")
 
     # Writing  content to the header
     header_content = generate_header(input_json_filename, json_dict)
