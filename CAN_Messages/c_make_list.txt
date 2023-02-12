@@ -1,0 +1,22 @@
+set(DEFAULT_CATCH_INPUT "./input")
+if (NOT DEFINED CATCH_INPUT)
+    set(CATCH_INPUT "${DEFAULT_CATCH_INPUT}")
+endif ()
+
+message(STATUS "User defined CATCH_INPUT : ${CATCH_INPUT}"
+
+execute_process(
+    #name
+    #generate_sources_from_json
+    # Command cmd arg1 arg2 arg ...
+    COMMAND "python3" "signals.py" "-i" "${CATCH_INPUT} "-o" "./Output"
+    # Working directory -> our folder with CMakeList.txt
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+set(CAN_Messages_INCLUDE_DIR
+            "${CMAKE_CURRENT_SOURCE_DIR}/Output/include/can_messages/"
+            PARENT_SCOPE)
+set(CAN_Messages_SOURCES
+            "${CMAKE_CURRENT_SOURCE_DIR}/Output/src/signals.cpp"
+            PARENT_SCOPE)

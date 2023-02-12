@@ -1,5 +1,4 @@
 .vscode/
-*.yaml
 build/
 **/build
 *.o
@@ -7,3 +6,11 @@ build/
 *.a
 **/todo.md
 **/Makefile
+Component_Test/
+**/Component_Test
+__pycache__
+**/__pycache__
+.pytest_cache
+**/pytest_cache
+Output/
+**/Output/

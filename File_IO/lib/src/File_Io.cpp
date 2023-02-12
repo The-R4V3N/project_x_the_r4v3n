@@ -1,50 +1,45 @@
-#include "File_Io.h"
+#include "File_IO.h"
 
-std::vector<std::string> FileOps::read(std::string fileName, size_t line)
+bool FileOps::fileExists(std::string fileName)
 {
-    std::vector<std::string> items;
-    std::ifstream file(fileName);
-    std::string data;
-    if (line == 0)
+    std::ifstream infile(fileName);
+    return infile.good();
+}
+
+std::vector<std::string> FileOps::read(std::string fileName)
+{
+    std::vector<std::string> data;
+    std::string line;
+    std::ifstream inFile(fileName);
+    if (inFile.is_open())
     {
-        while (std::getline(file, data))
-            items.push_back(data);
+        while (std::getline(inFile, line))
+        {
+            data.push_back(line);
+        }
+        inFile.close();
     }
     else
     {
-        int i = 1;
-        while (std::getline(file, data))
-        {
-            if (i == line)
-                items.push_back(data);
-            i++;
-        }
+        throw std::runtime_error("Error opening file " + fileName);
     }
-    return items;
+
+    return data;
 }
 
-void write(std::string fileName, std::string data, size_t nLines)
+void FileOps::write(std::string fileName, std::vector<std::string> data)
 {
-    std::ofstream file(fileName, std::ios::app);
-    if (file.is_open())
+    std::ofstream outFile(fileName, std::ios_base::app);
+    if (outFile.is_open())
     {
-        for (size_t i = 0; i < nLines; i++)
+        for (const std::string &line : data)
         {
-            file << data;
-            if (i < nLines - 1)
-                file << '\n';
+            outFile << line << std::endl;
         }
-
-        file.close();
+        outFile.close();
     }
     else
     {
-        throw std::runtime_error("Error: Unable to open file " + fileName + " for writing.");
+        throw std::runtime_error("Error opening file " + fileName + " for writing");
     }
-}
-
-bool fileExists(const std::string &name)
-{
-    std::ifstream f(name.c_str());
-    return f.good();
 }

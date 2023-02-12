@@ -32,15 +32,10 @@
 class FileOps
 {
 public:
-    FileOps() {}
-
-    std::vector<std::string> read(std::string fileName, size_t line);
-
-    void write(std::string fileName, std::string data, size_t nLines);
-
-    bool fileExists(const std::string &name);
-
-    ~FileOps() {}
+    FileOps(){};
+    static bool fileExists(std::string fileName);
+    std::vector<std::string> read(std::string fileName);
+    void write(std::string fileName, std::vector<std::string> data);
 };
 
 #endif /* FILE_IO_H */
