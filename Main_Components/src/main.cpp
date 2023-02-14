@@ -179,6 +179,16 @@ std::string parse_set_func_and_call(std::string line)
         CAN_signals signal_obj;
         return "\t\t" + signal_obj.set_humidity(u_value);
     }
+    else if (set_signal_name.compare("front_sensor_status") == 0)
+    {
+        bool b_value = false;
+        if (value.compare("enabled") == 0)
+        {
+            b_value = true;
+        }
+        CAN_signals signal_obj;
+        return "\t\t" + signal_obj.set_front_sensor_status(b_value);
+    }
     else if (set_signal_name.compare("flow_rate") == 0)
     {
         uint8_t u_value;
