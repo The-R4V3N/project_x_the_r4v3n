@@ -137,8 +137,8 @@ def generate_source(input_json_filename, json_dict):
         sstream = 'sstream'
         msgihd = 'MsgId'
         signal_length = signal["length"]
-        get_function = f'{std} {class_name}::get_{signal_name}()\n{{\n\t{std}stream {sstream};\n\t{sstream} << "{{\\"{id}\\": "<< m_{signal_name}Get{msgid}\n\t\t<< ", \\"length\\":  {signal_length}"\n\t\t<< ",  \\"value\\": "\""\"}}";\n\treturn {sstream}.str();\n}}\n'
-        set_function = f'{std} {class_name}::set_{signal_name}({signal_type} newValue)\n{{\n\t{std}stream {sstream};\n\t{sstream} << "{{\\"{id}\\": " << m_{signal_name}Set{msgid}\n\t\t<< ", \\"length\\":  {signal_length}"\n\t\t<< ", \\"value\\":  " << newValue << "}}";\n\treturn {sstream}.str();\n}}'
+        get_function = f'{std} {class_name}::get_{signal_name}()\n{{\n\t{std}stream {sstream};\n\t{sstream} << "{{\\"{id}\\": "<< +m_{signal_name}Get{msgid}\n\t\t<< ", \\"length\\":  {signal_length}"\n\t\t<< ",  \\"value\\": "\""\"}}";\n\treturn {sstream}.str();\n}}\n'
+        set_function = f'{std} {class_name}::set_{signal_name}({signal_type} newValue)\n{{\n\t{std}stream {sstream};\n\t{sstream} << "{{\\"{id}\\": " << +m_{signal_name}Set{msgid}\n\t\t<< ", \\"length\\":  {signal_length}"\n\t\t<< ", \\"value\\":  " << +newValue << "}}";\n\treturn {sstream}.str();\n}}'
         output.append(get_function)
         output.append(set_function)
 
