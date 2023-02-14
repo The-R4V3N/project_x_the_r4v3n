@@ -18,26 +18,30 @@ std::string parse_get_func_and_call(std::string line)
         return result;
     }
 
-    // position of get + the length of the "get" + extra whitespace
+    // position of get+ the length of the "set" + extra whitespace
     size_t pos_start_signal_name = pos_of_get + get_keyword.size() + 1;
-    size_t pos_of_separator = line.find(" ", pos_start_signal_name);
+    // size_t pos_of_separator = line.find(" ", pos_start_signal_name);
 
-    //  Check if the signal name was extracted correctly
-    if (pos_of_separator == std::string::npos)
+    // Check if the signal name was extracted correctly
+    if (line.length() == std::string::npos)
     {
         std::cerr << "Error: Could not find separator in line: " << line << std::endl;
         return result;
     }
 
-    std::string get_signal_name = line.substr(pos_start_signal_name, pos_of_separator - pos_start_signal_name);
+    std::string get_signal_name = line.substr(pos_start_signal_name, line.length() - (pos_start_signal_name + 1));
+
+    bool shall_we_delete = line[line.size() - 1] == '\r';
     // ignore space before
-    std::string value = line.substr(pos_of_separator + 1,
-                                    // from total length (position of first element + last element)
-                                    line.length() - ((pos_of_separator + 1) + 1));
+    // std::string value = line.substr(pos_of_separator + 1,
+    //                                 // from total length (position of first element + last element)
+    //                                 line.length() - ((pos_of_separator + 1) + (shall_we_delete ? 1 : 0)));
 
     std::cout << "signal_name  = |" << get_signal_name
               << "| value |"
-              << value << "|" << std::endl;
+              //<< value
+              << " |"
+              << std::endl;
 
     if (get_signal_name.compare("temperature") == 0)
     {
@@ -48,6 +52,56 @@ std::string parse_get_func_and_call(std::string line)
     {
         CAN_signals signal_obj;
         return "\t\t" + signal_obj.get_humidity();
+    }
+    else if (get_signal_name.compare("front_sensor_status") == 0)
+    {
+        CAN_signals signal_obj;
+        return "\t\t" + signal_obj.get_front_sensor_status();
+    }
+    else if (get_signal_name.compare("flow_rate") == 0)
+    {
+        CAN_signals signal_obj;
+        return "\t\t" + signal_obj.get_flow_rate();
+    }
+    else if (get_signal_name.compare("flow_meter_sensor_status") == 0)
+    {
+        CAN_signals signal_obj;
+        return "\t\t" + signal_obj.get_flow_meter_sensor_status();
+    }
+    else if (get_signal_name.compare("light_intensity") == 0)
+    {
+        CAN_signals signal_obj;
+        return "\t\t" + signal_obj.get_light_intensity();
+    }
+    else if (get_signal_name.compare("light_intensity_sensor_status") == 0)
+    {
+        CAN_signals signal_obj;
+        return "\t\t" + signal_obj.get_light_intensity_sensor_status();
+    }
+    else if (get_signal_name.compare("water_level") == 0)
+    {
+        CAN_signals signal_obj;
+        return "\t\t" + signal_obj.get_water_level();
+    }
+    else if (get_signal_name.compare("water_level_sensor_status") == 0)
+    {
+        CAN_signals signal_obj;
+        return "\t\t" + signal_obj.get_water_level_sensor_status();
+    }
+    else if (get_signal_name.compare("soil_moisture") == 0)
+    {
+        CAN_signals signal_obj;
+        return "\t\t" + signal_obj.get_soil_moisture_sensor_status();
+    }
+    else if (get_signal_name.compare("soil_moisture_sensor_status") == 0)
+    {
+        CAN_signals signal_obj;
+        return "\t\t" + signal_obj.get_soil_moisture_sensor_status();
+    }
+    else if (get_signal_name.compare("stop_signal_light") == 0)
+    {
+        CAN_signals signal_obj;
+        return "\t\t" + signal_obj.get_stop_signal_light();
     }
     else
     {
@@ -82,10 +136,12 @@ std::string parse_set_func_and_call(std::string line)
     }
 
     std::string set_signal_name = line.substr(pos_start_signal_name, pos_of_separator - pos_start_signal_name);
+
+    bool shall_we_delete = line[line.size() - 1] == '\r';
     // ignore space before
     std::string value = line.substr(pos_of_separator + 1,
                                     // from total length (position of first element + last element)
-                                    line.length() - ((pos_of_separator + 1) + 1));
+                                    line.length() - ((pos_of_separator + 1) + (shall_we_delete ? 1 : 0)));
 
     std::cout << "signal_name  = |" << set_signal_name
               << "| value |"
@@ -123,6 +179,136 @@ std::string parse_set_func_and_call(std::string line)
         CAN_signals signal_obj;
         return "\t\t" + signal_obj.set_humidity(u_value);
     }
+    else if (set_signal_name.compare("flow_rate") == 0)
+    {
+        uint8_t u_value;
+        try
+        {
+            u_value = std::stoul(value) & 0xFF;
+        }
+        catch (const std::invalid_argument &e)
+        {
+            std::cerr << "Error: Could not convert value to unsigned integer." << std::endl;
+            return result;
+        }
+        CAN_signals signal_obj;
+        return "\t\t" + signal_obj.set_flow_rate(u_value);
+    }
+    else if (set_signal_name.compare("flow_meter_sensor_status") == 0)
+    {
+        uint8_t u_value;
+        try
+        {
+            u_value = std::stoul(value) & 0xFF;
+        }
+        catch (const std::invalid_argument &e)
+        {
+            std::cerr << "Error: Could not convert value to unsigned integer." << std::endl;
+            return result;
+        }
+        CAN_signals signal_obj;
+        return "\t\t" + signal_obj.set_flow_meter_sensor_status(u_value);
+    }
+    else if (set_signal_name.compare("light_intensity") == 0)
+    {
+        uint8_t u_value;
+        try
+        {
+            u_value = std::stoul(value) & 0xFF;
+        }
+        catch (const std::invalid_argument &e)
+        {
+            std::cerr << "Error: Could not convert value to unsigned integer." << std::endl;
+            return result;
+        }
+        CAN_signals signal_obj;
+        return "\t\t" + signal_obj.set_light_intensity(u_value);
+    }
+    else if (set_signal_name.compare("light_intensity_sensor_status") == 0)
+    {
+        uint8_t u_value;
+        try
+        {
+            u_value = std::stoul(value) & 0xFF;
+        }
+        catch (const std::invalid_argument &e)
+        {
+            std::cerr << "Error: Could not convert value to unsigned integer." << std::endl;
+            return result;
+        }
+        CAN_signals signal_obj;
+        return "\t\t" + signal_obj.set_light_intensity_sensor_status(u_value);
+    }
+    else if (set_signal_name.compare("water_level") == 0)
+    {
+        uint8_t u_value;
+        try
+        {
+            u_value = std::stoul(value) & 0xFF;
+        }
+        catch (const std::invalid_argument &e)
+        {
+            std::cerr << "Error: Could not convert value to unsigned integer." << std::endl;
+            return result;
+        }
+        CAN_signals signal_obj;
+        return "\t\t" + signal_obj.set_water_level(u_value);
+    }
+    else if (set_signal_name.compare("water_level_sensor_status") == 0)
+    {
+        uint8_t u_value;
+        try
+        {
+            u_value = std::stoul(value) & 0xFF;
+        }
+        catch (const std::invalid_argument &e)
+        {
+            std::cerr << "Error: Could not convert value to unsigned integer." << std::endl;
+            return result;
+        }
+        CAN_signals signal_obj;
+        return "\t\t" + signal_obj.set_water_level_sensor_status(u_value);
+    }
+    else if (set_signal_name.compare("soil_moisture") == 0)
+    {
+        uint8_t u_value;
+        try
+        {
+            u_value = std::stoul(value) & 0xFF;
+        }
+        catch (const std::invalid_argument &e)
+        {
+            std::cerr << "Error: Could not convert value to unsigned integer." << std::endl;
+            return result;
+        }
+        CAN_signals signal_obj;
+        return "\t\t" + signal_obj.set_soil_moisture(u_value);
+    }
+    else if (set_signal_name.compare("soil_moisture_sensor_status") == 0)
+    {
+        uint8_t u_value;
+        try
+        {
+            u_value = std::stoul(value) & 0xFF;
+        }
+        catch (const std::invalid_argument &e)
+        {
+            std::cerr << "Error: Could not convert value to unsigned integer." << std::endl;
+            return result;
+        }
+        CAN_signals signal_obj;
+        return "\t\t" + signal_obj.set_soil_moisture_sensor_status(u_value);
+    }
+    else if (set_signal_name.compare("stop_signal_light") == 0)
+    {
+        bool b_value = false;
+        if (value.compare("enabled") == 0)
+        {
+            b_value = true;
+        }
+        CAN_signals signal_obj;
+        return "\t\t" + signal_obj.set_stop_signal_light(b_value);
+    }
     return result;
 }
 
@@ -140,7 +326,7 @@ std::vector<std::string> convert(std::vector<std::string> raw_input)
         {
             std::string out = parse_get_func_and_call(line);
             output.push_back(out);
-            // call a function to parse get lines
+            // call a function to parse set lines
         }
 
         size_t pos_of_set = line.find("set");
@@ -175,7 +361,7 @@ int main(int argc, char *argv[])
     std::vector<std::string> output_content = convert(input_content);
 
     // Decoration part
-    std::vector<std::string> final_output = {"{", "\t["};
+    std::vector<std::string> final_output = {"{", "\t \"cmds\" : ["};
 
     if (output_content.empty() != true)
     {
