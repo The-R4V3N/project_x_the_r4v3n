@@ -387,5 +387,5 @@ int main(int argc, char *argv[])
 }
 /*
 Command to run after compiling
-./Main_Components/main_component ../Main_Components/intput/signals.txt ./output.json
+./Main_Components/main_component ../Main_Components/input/signals.txt ./output.json
 */
