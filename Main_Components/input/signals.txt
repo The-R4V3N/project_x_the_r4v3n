@@ -1,0 +1,24 @@
+get temperature
+set temperature  72.43   
+get humidity
+set humidity  50 
+get front_sensor_status
+set front_sensor_status  disabled    
+get flow_rate
+set flow_rate  2048
+get flow_meter_sensor_status
+set flow_meter_sensor_status  97 
+get light_intensity
+set light_intensity  13 
+get light_intensity_sensor_status
+set light_intensity_sensor_status  1 
+get water_level
+set water_level  10 
+get water_level_sensor_status
+set water_level_sensor_status  0 
+get soil_moisture
+set soil_moisture  70 
+get soil_moisture_sensor_status
+set soil_moisture_sensor_status  1 
+get stop_signal_light
+set stop_signal_light  enabled    
