@@ -21,12 +21,12 @@ def gen_include_guard_class_decl_ctor(input_json_filename):
 
     json_name_upper = input_json_filename.upper()
     include_guard_name = f'HEADER_{json_name_upper}_H'
-    include_library_name = f'<sstream>\n#include <string>'
+    include_library_name = f'#include <sstream>\n#include <string>'
 
     top.append(f'#ifndef {include_guard_name}')
     top.append(f'#define {include_guard_name}')
     top.append('\n')
-    top.append(f'#include {include_library_name}')
+    top.append(f'{include_library_name}')
     top.append('\n')
     top.append(f'class CAN_{input_json_filename} \n{{')
     top.append('\tpublic:')

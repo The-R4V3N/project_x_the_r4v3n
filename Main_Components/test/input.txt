@@ -1,2 +1,0 @@
-
-set temperature  72.43 
