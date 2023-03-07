@@ -31,12 +31,6 @@ std::string parse_get_func_and_call(std::string line)
 
     std::string get_signal_name = line.substr(pos_start_signal_name, line.length() - (pos_start_signal_name + 1));
 
-    // bool shall_we_delete = line[line.size() - 1] == '\r';
-    // ignore space before
-    // std::string value = line.substr(pos_of_separator + 1,
-    //                                 // from total length (position of first element + last element)
-    //                                 line.length() - ((pos_of_separator + 1) + (shall_we_delete ? 1 : 0)));
-
     std::cout << "signal_name  = |" << get_signal_name
               << "| value |"
               //<< value
