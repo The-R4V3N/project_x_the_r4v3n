@@ -18,3 +18,5 @@ Have added  github workfow
 5. We recommend to use lldb ( due to nice User Interface).
     1. Run lldb together with executable file ( lldb .Main_Components/main_component)
     2. Inside lldb we can call a command "gui" to have User Interface. Run a program with arguments ( run <arg1> <arg2>)  run ../Main_Component/ouput/tsignals.txt. output.txt
+
+![Lines of code](https://tokei.rs/b1/github/The-R4V3N/project_x_the_r4v3n)
