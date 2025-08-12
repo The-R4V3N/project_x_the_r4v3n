@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Install prerequisits
         run: sudo apt-get install -y python3 python3-pip cmake build-essential tree
       - name: visually control the code
